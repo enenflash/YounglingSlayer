@@ -1,7 +1,7 @@
 // Authors: Ryan Beikrasouli and Isabelle Tang (Youngling Slayer)
 // logic based off of our (Rossmoyne Cosine) standard competition logic (2023)
 // note all mesurements are in cm as the ultrasonics mesure in cm
-
+// NOTE run forward at start, lcd and laser codes have been commented out
 #include <iostream>
 #include <vector>   // add vectors (equvilent of python lists)
 #include <map>      // add std::maps (equivilent of python dictionaries)
@@ -16,7 +16,7 @@
 #include <LiquidCrystal_I2C.h> // used for LCD
 
 // Ignoring unimportant warnings
-#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+//#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
 #pragma GCC diagnostic ignored "-Wrange-loop-construct"
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 
@@ -36,8 +36,8 @@ LiquidCrystal_I2C lcd(0x3F, 16, 2); // LCD
   int16_t find_max(vector<int16_t> vec) {
     int16_t max = vec[0];
 
-    for (const int& i : vec) {
-      if (i > max) {
+    for (unsigned i = 0; i < vec.size(); i++) {
+      if (vec[i] > max) {
         max = vec[i];
       }
     }
@@ -49,8 +49,8 @@ LiquidCrystal_I2C lcd(0x3F, 16, 2); // LCD
   int16_t find_min(vector<int16_t> vec) {
     int16_t min = vec[0];
 
-    for (const int& i : vec) {
-      if (i < min) {
+    for (unsigned i = 0; i<vec.size(); i++) {
+      if (vec[i] < min) {
         min = vec[i];
       }
     }
@@ -61,12 +61,12 @@ LiquidCrystal_I2C lcd(0x3F, 16, 2); // LCD
   // find most common value in vector
   int16_t Most_Common(vector<int16_t> vec){
     int16_t Count = 0;
-    int16_t item;
+    int16_t item = 0;
 
-    for (const int& i : vec) {
-        if (count(vec.begin(), vec.end(), i) > Count) {
-          item = i;
-          Count = count(vec.begin(), vec.end(), i);
+    for (unsigned i = 0; i<vec.size(); i++) {
+        if (count(vec.begin(), vec.end(), vec[i]) > Count) {
+          item = vec[i];
+          Count = count(vec.begin(), vec.end(), vec[i]);
         }
     }
     return item;
@@ -75,12 +75,12 @@ LiquidCrystal_I2C lcd(0x3F, 16, 2); // LCD
 
   long Most_Common(vector<long> vec) {
     int16_t Count = 0;
-    long item;
+    long item = 0;
 
-    for (const int& i : vec) {
-        if (count(vec.begin(), vec.end(), i) > Count) {
-          item = i;
-          Count = count(vec.begin(), vec.end(), i);
+    for (unsigned i = 0; i<vec.size(); i++) {
+        if (count(vec.begin(), vec.end(), vec[i]) > Count) {
+          item = vec[i];
+          Count = count(vec.begin(), vec.end(), vec[i]);
         }
     }
     return item;
@@ -123,8 +123,8 @@ LiquidCrystal_I2C lcd(0x3F, 16, 2); // LCD
     // setting highest percentage as 100% of speed and scalling everything reletive to it
     if (highest != 0) {
       vector<int16_t> run = {};
-      for (const int& i : raw) {
-        run.insert(run.end(), round(i / highest * speed));
+      for (unsigned i = 0; i<raw.size(); i++) {
+        run.insert(run.end(), round(raw[i] / highest * speed));
       }
       return run;
     }
@@ -175,8 +175,8 @@ LiquidCrystal_I2C lcd(0x3F, 16, 2); // LCD
 
   // determine the x y coordinants required to travel to
   vector<double> get_xy(int16_t direction, int16_t ball_distance, int16_t ROBOT_TO_BALL, int16_t ROBOT_TO_BALL_MULTIPLY, std::map<int16_t, double_t> sine, std::map<int16_t, double_t> cosine) {
-    double x;
-    double y;
+    double x = 0;
+    double y = 0;
 
     // if ball behind robot move to side instead
     if (in({ 2, 10, 11, 1, 3, 9 }, direction)) {
@@ -415,13 +415,6 @@ LiquidCrystal_I2C lcd(0x3F, 16, 2); // LCD
 
 // ############################### MAIN LOOP ###############################
   void loop() {
-  // ########################## IDLE ##########################
-    bool idle = Switch_Idle();
-
-    // while idle do nothing
-    while (idle) {
-      idle = Switch_Idle();
-    }
 
   // ########################## VARIABLES ##########################
 
@@ -521,7 +514,19 @@ LiquidCrystal_I2C lcd(0x3F, 16, 2); // LCD
       back_ultrasonic.trigger_pin = 13;
       back_ultrasonic.echo_pin = 14;
 
+  // ########################## IDLE ##########################
+    bool idle = Switch_Idle();
 
+    // while idle do nothing
+    while (idle) {
+      tl_motor.run_motor(0);
+      tr_motor.run_motor(0);
+      bl_motor.run_motor(0);
+      br_motor.run_motor(0);
+      idle = Switch_Idle();
+    }
+  
+  
   // ########################## MATCH BEGINNING ##########################
     // go straight forward at beginning of match FIX IN FUTURE
     static uint32_t startTime = millis();
@@ -803,12 +808,12 @@ LiquidCrystal_I2C lcd(0x3F, 16, 2); // LCD
 
       
       // ########################## OUTPUT ##########################
-        //lcd.setCursor(0, 0);
-        //lcd.print("Direction: ");
-        //lcd.print(direction);
-        //lcd.setCursor(0, 1);
-        //lcd.print("Strength: ");
-        //lcd.print(strength);
+        lcd.setCursor(0, 0);
+        lcd.print("Direction: ");
+        lcd.print(direction);
+        lcd.setCursor(0, 1);
+        lcd.print("Strength: ");
+        lcd.print(strength);
 
         motor_ratio = { (int16_t)(-x - y), (int16_t)(-x + y), (int16_t)(x - y), (int16_t)(x + y) };
         motor_percent = raw_to_run(motor_ratio, speed);
