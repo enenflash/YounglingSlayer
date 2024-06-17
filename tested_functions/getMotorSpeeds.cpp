@@ -3,21 +3,21 @@
 #include <array>
 using namespace std;
 
-array<float, 4> getMotorSpeeds(int x, int y, float speed) {
+array<float, 4> getMotorSpeeds(float x, float y, float speed) {
     //cout << x << "\n" << y << "\n" << speed;
     
-    int motorRatio[4] = {-x-y, -x+y, x-y, x+y};
+    float motorRatio[4] = {-x-y, -x+y, x-y, x+y};
     cout << "\nMotor Ratio: \n";
     for (int i = 0; i < 4; i++) {
         cout << " " << motorRatio[i];
     }
     
-    int highestVal = *max_element(motorRatio, motorRatio+4);
-    int lowestVal = *min_element(motorRatio, motorRatio+4);
+    float highestVal = *max_element(motorRatio, motorRatio+4);
+    float lowestVal = *min_element(motorRatio, motorRatio+4);
     cout << "\n\nHighest Value: " << highestVal;
     cout << "\nLowest Value: " << lowestVal;
     
-    int largest;
+    float largest;
     if (highestVal > lowestVal*-1) {
         largest = highestVal;
     }
