@@ -1,4 +1,5 @@
 // THIS FUNCTION GETS MOTOR SPEEDS FROM AN ANGLE
+// The angle uses unit circle format
 
 #include <iostream>
 #include <algorithm> //*max_element, *min_element
