@@ -5,8 +5,8 @@
 using namespace std;
 
 //all values in cm
-const int fieldDim[2] = {1820, 2430};
-const int goalDispFromBL[2] = {910, 2130};
+const int fieldDim[2] = {182, 243};
+const int goalDispFromBL[2] = {91, 213};
 
 vector<float> getGoalVector(float leftDist, float backDist) {
     
@@ -28,7 +28,7 @@ float getGoalAngle(vector<float> goalVector) {
 }
 
 int main() {
-    float leftDis = 910, backDis = 915;
+    float leftDis = 91, backDis = 91.5;
     vector<float> goalVector = getGoalVector(leftDis, backDis);
     float goalAngle = getGoalAngle(goalVector);
     return 0;
