@@ -19,6 +19,11 @@ array<float, 4> getMotorSpeeds(float theta, float speed, float tilt) {
     cout << "\nx: " << x << " y: " << y;
     
     float motorRatio[4] = {-x-y+t, -x+y+t, x-y+t, x+y+t};
+    // round motor ratio to prevent errors
+    for (int i = 0; i < 4; i++) {
+        motorRatio[i] = round(motorRatio[i] * 1000) / 1000;
+    }
+    
     cout << "\n\nMotor Ratio: \n";
     for (int i = 0; i < 4; i++) {
         cout << " " << motorRatio[i];
