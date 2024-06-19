@@ -1,4 +1,6 @@
 // Example code for usage of functions
+// WARNING: this code is outdated - it purely exists as a demo
+// copy the functions from their individual cpp files
 
 #include <iostream>
 #include <vector>
