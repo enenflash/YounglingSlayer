@@ -177,6 +177,15 @@ public:
         }
         motorSpeeds = getMotorSpeeds(theta, speed, tilt);
 
+	for (int i = 0; i < 4; i++) {
+	    if (motorSpeeds[i] > 100) {
+	        motorSpeeds[i] = 100;
+	    }
+	    else if (motorSpeeds[i] < -100) {
+	        motorSpeeds[i] = -100;
+	    }
+	}
+
         TL.run(motorSpeeds[0]);
         TR.run(motorSpeeds[1]);
         BL.run(motorSpeeds[2]);
