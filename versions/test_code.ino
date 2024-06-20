@@ -200,51 +200,35 @@ public:
   };
 };
 
-class IMU {
-private:
-  Adafruit_BNO055 bno = Adafruit_BNO055(55);
-  //int RESET_PIN;
-public:
-  IMU() {    
-    if (!bno.begin()) {
-      /* There was a problem detecting the BNO055 ... check your connections */
-      Serial.print("\nOoops, no BNO055 detected ... Check your wiring or I2C ADDR!");
-    }
-    else {
-      Serial.print("\nBNO055 Initialized");
-    }
+// class IMU {
+// public:
+//   float heading() {
+//     sensors_event_t event;
+//     bno.getEvent(&event);
+//     return event.orientation.x;
+//   };
+//   float pitch() {
+//     sensors_event_t event;
+//     bno.getEvent(&event);
+//     return event.orientation.y;
+//   };
+//   float roll() {
+//     sensors_event_t event;
+//     bno.getEvent(&event);
+//     return event.orientation.z;
+//   };
+//   // void reset() {
+//   //   // WARNING UNTESTED
+//   //   // connect reset pin of gyro to any 5v GPIO pin
+//   //   // send the pin low then high to reset
+//   //   Serial.println("Resetting.");
+//   //   digitalWrite(RESET_PIN, LOW);
+//   //   delayMicroseconds(30);
+//   //   digitalWrite(RESET_PIN, HIGH);
 
-    delay(1000);
-
-    bno.setExtCrystalUse(true);
-  };
-  float heading() {
-    sensors_event_t event;
-    bno.getEvent(&event);
-    return event.orientation.x;
-  };
-  float pitch() {
-    sensors_event_t event;
-    bno.getEvent(&event);
-    return event.orientation.y;
-  };
-  float roll() {
-    sensors_event_t event;
-    bno.getEvent(&event);
-    return event.orientation.z;
-  };
-  // void reset() {
-  //   // WARNING UNTESTED
-  //   // connect reset pin of gyro to any 5v GPIO pin
-  //   // send the pin low then high to reset
-  //   Serial.println("Resetting.");
-  //   digitalWrite(RESET_PIN, LOW);
-  //   delayMicroseconds(30);
-  //   digitalWrite(RESET_PIN, HIGH);
-
-  //   bno.begin();
-  // };
-};
+//   //   bno.begin();
+//   // };
+// };
 
 bool getIdle() {
   int switchState = digitalRead(SWITCH_PIN);
@@ -253,9 +237,12 @@ bool getIdle() {
   return (switchState == LOW);
 };
 
+//IMU gyro;
+Adafruit_BNO055 bno = Adafruit_BNO055(55);
+
 void setup() {
   Serial.begin(9600);
-  Serial.println("\nSetup");
+  Serial.println("\nA");
   /* :::::::: MOTOR PINS :::::::: */
 
   pinMode(TL_PWM, OUTPUT);
@@ -274,13 +261,45 @@ void setup() {
   pinMode(BR_DIR, OUTPUT);
 
   pinMode(SWITCH_PIN, INPUT);
+
+  // if (!bno.begin()) Serial.print("\nNo BNO055 detected");
+  // else { Serial.print("\nBNO055 Initialized"); }
+
+  // delay(1000);
+
+  // bno.setExtCrystalUse(true);
 }
 
+// Motor TL = Motor(TL_PWM, TL_DIR);
+// Motor TR = Motor(TR_PWM, TR_DIR);
+// Motor BL = Motor(BL_PWM, BL_DIR);
+// Motor BR = Motor(BR_PWM, BR_DIR);
+
 MotorController mc = MotorController(false);
-IMU gyro;
 float tilt;
 
 void loop() {
+  // if (!getIdle()) {
+  //   TL.run(-100);
+  //   TR.run(100);
+  //   BL.run(-100);
+  //   BR.run(100);
+  // }
+  // else {
+  //   TL.stop();
+  //   TR.stop();
+  //   BL.stop();
+  //   BR.stop();
+  // }
+
+  // sensors_event_t event;
+  // bno.getEvent(&event);
+  // tilt = event.orientation.x;
+
+  // if (tilt > -5 and tilt < 5) {
+  //   tilt = 0;
+  // }
+
   if (!getIdle()) {
     mc.runMotors(1, 1, 0);
   }
