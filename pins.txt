@@ -25,4 +25,7 @@ IR_SCL: 19
 IMU_SDA: 18
 IMU_SCL: 19
 
+LCD_SDA: 18
+LCD_SCL: 19
 
+Idle Switch: 30
