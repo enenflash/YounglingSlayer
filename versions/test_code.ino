@@ -1,13 +1,16 @@
+// This test code moves the robot in a specific direction while correcting tilt
+
 #include <iostream>
 #include <array>
 #include <cmath>
 #include <algorithm>
 
 // For IMU
-#include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
+
+#include <Wire.h>
 
 using namespace std;
 
@@ -86,6 +89,8 @@ private:
   }
   //getHeadlessTheta(float theta, float tilt) -> float headlessTheta
   float getHeadlessTheta(float theta, float tilt) {
+    // convert to radians
+    tilt = tilt * M_PI * 180;
     float headlessTheta = theta - tilt;
     return headlessTheta;
 
@@ -96,10 +101,16 @@ private:
   //getMotorSpeeds(float theta, float speed, float tilt) -> array<float, 4> motorSpeeds
   array<float, 4> getMotorSpeeds(float theta, float speed, float tilt) {
     //the effect that tilt has on the motors
-    float t = tilt * 2;
+    //convert to bearing
+    float t = 360 - tilt;
+    if (t > 180) {
+      t = -(360 - t);
+    }
 
     float x = cos(theta);
     float y = sin(theta);
+
+    t = t/16;
 
     float motorRatio[4] = { -x - y + t, -x + y + t, x - y + t, x + y + t };
     // round motor Ratio to prevent errors
@@ -167,6 +178,7 @@ public:
     if (headless) {
       theta = getHeadlessTheta(theta, tilt);
     }
+
     motorSpeeds = getMotorSpeeds(theta, speed, tilt);
 
     for (int i = 0; i < 4; i++) {
@@ -240,6 +252,9 @@ bool getIdle() {
 //IMU gyro;
 Adafruit_BNO055 bno = Adafruit_BNO055(55);
 
+MotorController mc = MotorController(false);
+float tilt;
+
 void setup() {
   Serial.begin(9600);
   Serial.println("\nA");
@@ -262,46 +277,31 @@ void setup() {
 
   pinMode(SWITCH_PIN, INPUT);
 
-  // if (!bno.begin()) Serial.print("\nNo BNO055 detected");
-  // else { Serial.print("\nBNO055 Initialized"); }
+  mc.stopMotors();
 
-  // delay(1000);
+  if (!bno.begin()) {
+    Serial.print("\nNo BNO055 detected");
 
-  // bno.setExtCrystalUse(true);
+  }
+  else { Serial.print("\nBNO055 Initialized"); }
+
+  bno.setExtCrystalUse(true);
 }
 
-// Motor TL = Motor(TL_PWM, TL_DIR);
-// Motor TR = Motor(TR_PWM, TR_DIR);
-// Motor BL = Motor(BL_PWM, BL_DIR);
-// Motor BR = Motor(BR_PWM, BR_DIR);
-
-MotorController mc = MotorController(false);
-float tilt;
-
 void loop() {
-  // if (!getIdle()) {
-  //   TL.run(-100);
-  //   TR.run(100);
-  //   BL.run(-100);
-  //   BR.run(100);
-  // }
-  // else {
-  //   TL.stop();
-  //   TR.stop();
-  //   BL.stop();
-  //   BR.stop();
-  // }
+  sensors_event_t event;
+  bno.getEvent(&event);
+  tilt = event.orientation.x;
 
-  // sensors_event_t event;
-  // bno.getEvent(&event);
-  // tilt = event.orientation.x;
+  tilt = 360 - tilt;
 
-  // if (tilt > -5 and tilt < 5) {
-  //   tilt = 0;
-  // }
+  if (tilt < 5 or tilt > 355) {
+    tilt = 0;
+  }
 
   if (!getIdle()) {
-    mc.runMotors(1, 1, 0);
+    mc.setSpeed(50);
+    mc.runMotors(0, 1, tilt);
   }
   else {
     mc.stopMotors();
