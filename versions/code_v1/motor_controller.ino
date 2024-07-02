@@ -48,7 +48,7 @@ private:
   float getTheta(float x, float y) { // in radians
     float theta = atan(y / x);
     if (theta < 0) theta = 2 * M_PI + theta;
-    else if (theta == -0) theta = M_PI;
+    else if (y == 0 and x == -1) theta = M_PI;
     if (x < 0 and y < 0) {
       theta += M_PI;
     }
