@@ -29,7 +29,7 @@ class Ultrasonic {
     }
 };
 
-// ultrasonic chooser
+// Decide which ultrasonic (left, right or neither) to use
 String ultrasonic_side_chooser(int left_distance, int right_distance, std::vector<int> left_distance_history, std::vector<int> right_distance_history, int FIELD_WIDTH, int ULTRASONIC_TO_ROBOT) {
     bool sensor_blocked;
     

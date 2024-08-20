@@ -124,32 +124,57 @@ bool getIdle() {
 String Find_Position(int distance, int FIELD_WIDTH) {
   int Half_width = FIELD_WIDTH / 2;
 
-  if (distance >= Half_width - 22 and distance <= Half_width + 22) {return "CENTER";}
+  if ((distance >= Half_width - 22 and distance <= Half_width + 22) or distance == 808) {return "CENTER";}
   else if (distance < Half_width - 22) {return "LEFT";}
   else {return "RIGHT";}
 }
 
 // calculate how much to tilt to goal
-float Get_Goal_Tilt(int true_back_distance, int distance, String pos, int FIELD_HEIGHT, int ULTRASONIC_TO_ROBOT, int FIELD_WIDTH) {
-  if (pos == "CENTER") {
+float Get_Goal_Tilt(int true_back_distance, int distance, String pos, int FIELD_HEIGHT, int ULTRASONIC_TO_ROBOT, int FIELD_WIDTH, int direction, int strength) {
+  if (pos == "CENTER" or strength > 28 or in({9,8,7,6,5,4,3}, direction) or distance == 808) {
     return 0;
   }
   
-  else if (pos == "RIGHT") {
+  else if (pos == "RIGHT" and strength < 28 and in({1,2,12}, direction)) {
     int front_distance = FIELD_HEIGHT - true_back_distance;
-    int distance_from_center = (FIELD_WIDTH / 2) - (FIELD_WIDTH - 2*ULTRASONIC_TO_ROBOT - distance);
-    float goal_rad_angle = atan(distance_from_center/front_distance);
+    int distance_from_center = (FIELD_WIDTH / 2) - (FIELD_WIDTH - 2 * ULTRASONIC_TO_ROBOT - distance);
+    float goal_rad_angle = atan(distance_from_center/(front_distance + 0.0));
     float goal_deg_angle = Rad_To_Deg(goal_rad_angle);
-    return goal_deg_angle;
+    return -goal_deg_angle;
+  }
 
+  else if (pos == "LEFT" and strength < 28 and in({11,10,12}, direction)) {
+    int front_distance = FIELD_HEIGHT - true_back_distance;
+    int distance_from_center = (FIELD_WIDTH/2) - distance;
+    float goal_rad_angle = atan(distance_from_center/(front_distance + 0.0));
+    float goal_deg_angle = Rad_To_Deg(goal_rad_angle);
+    return goal_deg_angle; 
   }
 
   else {
-    int front_distance = FIELD_HEIGHT - true_back_distance;
-    int distance_from_center = FIELD_WIDTH - distance;
-    float goal_rad_angle = atan(distance_from_center/front_distance);
-    float goal_deg_angle = Rad_To_Deg(goal_rad_angle);
-    return -goal_deg_angle; 
-
+    return 0;
   }
+}
+
+// stay within lines
+float Line_Check(int distance, float x, int direction, int strength) {
+  // left side
+  if (distance < 30 and x < 0) {
+    if (in({6,7,8}, direction)) {
+      return -x;
+    }
+
+    return 0;
+  }
+
+  // right side
+  else if (distance > 150 and x > 0) {
+    if (in({4,5,6}, direction)) {
+      return -x;
+    }
+
+    return 0;
+  }
+
+  return x;
 }

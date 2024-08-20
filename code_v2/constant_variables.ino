@@ -1,4 +1,5 @@
-const int ROBOT_TO_BALL = 20;
+// constant variables used throughout the code
+const int ROBOT_TO_BALL = 9;
 const int ROBOT_TO_BALL_MULTIPLY = 1;
 const int ULTRASONIC_TO_ROBOT = 11;
 const int FIELD_WIDTH = 182;

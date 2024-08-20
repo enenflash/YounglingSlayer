@@ -3,6 +3,7 @@
 // note all mesurements are in cm as the ultrasonics mesure in cm
 /*
 TO DO:
+  Use ultrasonics to stay within lines
   Add running forward at start
   Add dribbler code (later)
   Add communication (later)
@@ -11,6 +12,7 @@ TO DO:
 
 */
 
+// import required packages
 #include <iostream>
 #include <vector>   // add vectors (equvilent of python lists)
 #include <map>      // add std::maps (equivilent of python dictionaries)

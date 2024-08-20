@@ -89,7 +89,7 @@ class MotorController {
       }
 
       // buffer range 
-      if (tilt < 15 and tilt > -15 and goal_tilt == 0) {
+      if (tilt < 10 and tilt > -10 and goal_tilt == 0) {
         tilt = 0;
       } 
       

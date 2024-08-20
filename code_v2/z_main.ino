@@ -130,14 +130,16 @@ void loop() {
     ultrasonic_side = ultrasonic_side_chooser(true_left_distance, true_right_distance, left_distance_history, right_distance_history, FIELD_WIDTH, ULTRASONIC_TO_ROBOT);
 
     if (ultrasonic_side == "LEFT") {
-      right_distance_history.insert(right_distance_history.end(), true_left_distance);
-      distance = Most_Common(right_distance_history);
+      left_distance_history.insert(left_distance_history.end(), true_left_distance);
+      distance = Most_Common(left_distance_history);
+      true_left_distance = Most_Common(left_distance_history);
     }
 
     // turn the right distance into the left distance
     else if (ultrasonic_side == "RIGHT") {
       right_distance_history.insert(right_distance_history.end(), true_right_distance);
-      distance = FIELD_WIDTH - 2 * ULTRASONIC_TO_ROBOT - Most_Common(right_distance_history);
+      distance  = FIELD_WIDTH - 2 * ULTRASONIC_TO_ROBOT - Most_Common(right_distance_history);
+      true_right_distance = Most_Common(right_distance_history);
     }
 
     // distance set to 808 to indicate that neither ultrasonic should be used
@@ -155,8 +157,8 @@ void loop() {
       // speed calculations
       if (speed < 100) {speed = speed + 10;}
 
-      if (in({4,5,6,7,8}, direction) and strength < 25) {
-        speed = 70;
+      if (in({3,4,5,6,7,8,9}, direction) and strength < 25) {
+        speed = 75;
       }
       
       else if (direction == 12) {
@@ -164,24 +166,17 @@ void loop() {
       }
       
       // get the x, y coordinants to head to
-      mc.setSpeed(100);//speed);
+      mc.setSpeed(speed);
       x = get_xy(direction, ball_distance, ROBOT_TO_BALL, ROBOT_TO_BALL_MULTIPLY, ir_angles)[0];
       y = get_xy(direction, ball_distance, ROBOT_TO_BALL, ROBOT_TO_BALL_MULTIPLY, ir_angles)[1];
       
       
       // calculate value required to tilt to goal
-      if (ball_distance < 25 and in({1,12,11}, direction)) {
-        goal_tilt = Get_Goal_Tilt(true_back_distance, distance, position, FIELD_HEIGHT, ULTRASONIC_TO_ROBOT, FIELD_WIDTH);
-      }
+      goal_tilt = Get_Goal_Tilt(true_back_distance, distance, position, FIELD_HEIGHT, ULTRASONIC_TO_ROBOT, FIELD_WIDTH, direction, strength);
 
-      else { goal_tilt = 0;}
-
-      goal_tilt = 0;
-      //if (tilt_180 + 15 > -goal_tilt and -goal_tilt > tilt_180 - 15) {goal_tilt = 0;}
-      
       // output
       
-      mc.runMotors(0,0,tilt, goal_tilt/2);//x, y, tilt);// - goal_tilt); 
+      mc.runMotors(x, y, tilt, goal_tilt);
     }
 
     else {
