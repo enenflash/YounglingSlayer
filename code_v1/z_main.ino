@@ -45,6 +45,7 @@ void setup() {
 }
 
 float x,y;
+bool run_forward = false;
 void loop() {
   // imu
   sensors_event_t event;
@@ -61,7 +62,8 @@ void loop() {
   direction = Most_Common(direction_history);
   
   raw_strength = ir.getStrength();
-  strength_history.insert(strength_history.end(), raw_strength);
+  if (raw_strength != 0) {strength_history.insert(strength_history.end(), raw_strength);}
+  
   if (strength_history.size() > 3) strength_history.erase(strength_history.begin());
   strength = Average(strength_history);
 
@@ -70,8 +72,17 @@ void loop() {
   //Serial.print("\nDirection: "); Serial.print(direction);
   //Serial.print("\nStrength: "); Serial.print(strength);
 
-  if (!getIdle()) {
-    mc.setSpeed(100);
+  if (!getIdle() or true) {
+    /*if (!run_forward) {
+        unsigned long startTime = millis();  // Get the start time
+        while (millis() - startTime < 800) {
+          mc.runMotors(0, 1, tilt);
+        }
+        run_forward = true;
+      }*/
+
+    if (in({8,7,6,5,4},direction)) {mc.setSpeed(70);}
+    else {mc.setSpeed(100);}
     x = get_xy(direction, ball_distance, ROBOT_TO_BALL, ROBOT_TO_BALL_MULTIPLY, ir_angles)[0];
     y = get_xy(direction, ball_distance, ROBOT_TO_BALL, ROBOT_TO_BALL_MULTIPLY, ir_angles)[1];
     mc.runMotors(x, y, tilt);
@@ -80,5 +91,5 @@ void loop() {
     mc.stopMotors();
   }
 
-  delay(100);
+  //delay(100);
 }

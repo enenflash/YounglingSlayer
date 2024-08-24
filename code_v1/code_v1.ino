@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <map>
 #include <vector>
+#include <numeric> // used for calculating sum of vectors
 
 
 // For IMU
@@ -26,6 +27,6 @@ using namespace std;
 #define BR_PWM 3
 #define BR_DIR 4
 
-#define SWITCH_PIN 30
+#define SWITCH_PIN 36
 
 

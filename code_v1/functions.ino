@@ -26,13 +26,11 @@ int Most_Common(std::vector<int> vec){
   
 }
 
+// find average of vector
 int Average(std::vector<int> vec) {
-  int total = 0;
-  for (unsigned i; i = 0; i < vec.size()) {
-    total = total + vec[i];
-  }
+  float sum = accumulate(vec.begin(), vec.end(), 0.0f);
 
-  return round(total/3.0);
+  return round(sum/vec.size());
 }
 
 // convert between degrees and radians
@@ -43,6 +41,10 @@ float Deg_To_Rad(float degree) {
 vector<float> get_xy(int direction, int ball_distance, int ROBOT_TO_BALL, int ROBOT_TO_BALL_MULTIPLY, std::map<int, int> ir_angles) {
   float x = 0;
   float y = 0;
+
+  if (direction == 0) {
+    return {0, 0};
+  }
 
   // if ball behind robot move to side instead
   if (in({ 2, 10, 11, 1, 3, 9 }, direction)) {
@@ -67,10 +69,7 @@ vector<float> get_xy(int direction, int ball_distance, int ROBOT_TO_BALL, int RO
   else if (in({ 3, 9, 10, 2, 1, 11 }, direction)) {
     x = cos(Deg_To_Rad(ir_angles[direction])) * ball_distance;
   }
-  else if (direction == 0) {
-    x = 0;
-    y = 0;
-  }
+
   else if (direction == 12) {
     x = 0;
   }
