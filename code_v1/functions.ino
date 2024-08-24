@@ -28,6 +28,7 @@ int Most_Common(std::vector<int> vec){
 
 // find average of vector
 int Average(std::vector<int> vec) {
+  
   float sum = accumulate(vec.begin(), vec.end(), 0.0f);
 
   return round(sum/vec.size());
@@ -48,12 +49,12 @@ vector<float> get_xy(int direction, int ball_distance, int ROBOT_TO_BALL, int RO
 
   // if ball behind robot move to side instead
   if (in({ 2, 10, 11, 1, 3, 9 }, direction)) {
-    if (ball_distance < 23 or in({ 3, 9 }, direction)) {
+    if (ball_distance < MIN_BALL_DISTANCE || in({ 3, 9 }, direction)) {
       y = sin(Deg_To_Rad(ir_angles[direction])) * ball_distance - ROBOT_TO_BALL;
     }
     
     else {
-      y = sin(Deg_To_Rad(ir_angles[direction])) * ball_distance - (ROBOT_TO_BALL / 1.5);
+      y = sin(Deg_To_Rad(ir_angles[direction])) * ball_distance - round(ROBOT_TO_BALL / 1.5);
     }
   }
   else {

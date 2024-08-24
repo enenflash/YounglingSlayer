@@ -72,7 +72,7 @@ void loop() {
   //Serial.print("\nDirection: "); Serial.print(direction);
   //Serial.print("\nStrength: "); Serial.print(strength);
 
-  if (!getIdle() or true) {
+  if (true) {
     /*if (!run_forward) {
         unsigned long startTime = millis();  // Get the start time
         while (millis() - startTime < 800) {
@@ -87,6 +87,7 @@ void loop() {
     y = get_xy(direction, ball_distance, ROBOT_TO_BALL, ROBOT_TO_BALL_MULTIPLY, ir_angles)[1];
     mc.runMotors(x, y, tilt);
   }
+  
   else {
     mc.stopMotors();
   }

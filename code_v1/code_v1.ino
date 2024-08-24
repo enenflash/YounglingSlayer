@@ -29,4 +29,6 @@ using namespace std;
 
 #define SWITCH_PIN 36
 
+#define MIN_BALL_DISTANCE 65 // any less than 65 and it counts as close
+
 

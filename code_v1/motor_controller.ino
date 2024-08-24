@@ -62,7 +62,7 @@ private:
     if (isnan(theta)) {
       return theta;
     }
-    if (tilt < 10 or tilt > 350) {
+    if (tilt < 10 || tilt > 350) {
       return theta;
     }
     // convert to radians

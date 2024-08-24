@@ -1,4 +1,4 @@
-const int ROBOT_TO_BALL = 10;
+const int ROBOT_TO_BALL = 20;
 const int ROBOT_TO_BALL_MULTIPLY = 1;
 
 // hard coded ir_angles values
