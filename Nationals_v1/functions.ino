@@ -155,6 +155,7 @@ String Get_Colour_Data() {
     String data = Serial6.readStringUntil(';');
     
     return data;
+  }
 
   else {
     return "";
@@ -162,6 +163,7 @@ String Get_Colour_Data() {
 }
 
 // bluetooth communications
+
 void Send_Data(int valueToSend, float valueToSend2, String valueToSend3) {
   String all_values = String(valueToSend) + "," + String(valueToSend2) + "," + String(valueToSend3) + ";";
   bluetooth.println(all_values);
@@ -173,14 +175,14 @@ String Get_Bluetooth_Data() {
     return data;
   }
   else {
-    return "None"
+    return "None";
   }
 }
 
 // Laser (returns array of bools, [0] is front [1] is back)
 array<bool,2> Laser_Check() {
-  int frontValue = analogRead(ldrPin); // Read LDR value (0-1023)
-  int backValue = analogRead(frontpin);
+  int frontValue = analogRead(FLDR); // Read LDR value (0-1023)
+  int backValue = analogRead(BLDR);
   bool front_got_ball;
   bool back_got_ball;
   
@@ -193,7 +195,7 @@ array<bool,2> Laser_Check() {
     front_got_ball = false;
   }
 
-  if (backValue < 1023) {
+  if (backValue < 1023 and DOUBLE_DRIBBLER) {
     back_got_ball = true;
   }
 

@@ -10,10 +10,11 @@ Ultrasonic left_ultrasonic = Ultrasonic(LU_TRIG, LU_ECHO);
 Ultrasonic right_ultrasonic = Ultrasonic(RU_TRIG, RU_ECHO);
 Ultrasonic back_ultrasonic = Ultrasonic(BU_TRIG, BU_ECHO);
 
+
 //Dribbler_Motor DF = Dribbler_Motor(DF_PWM, DF_DIR1, DF_DIR2);
 //Dribbler_Motor DB = Dribbler_Motor(DB_PWM, DB_DIR1, DB_DIR2);
 
-//SoftwareSerial bluetooth(0, 1); // TBU // bluetooth with pins 0 and 1
+
 
 float tilt, triangle_tilt, goal_tilt;
 int ult_distance, left_distance, right_distance,back_distance;
@@ -31,7 +32,7 @@ vector<int> back_distance_history;
 // Setup
 void setup() {
   Serial.begin(9600);
-  //bluetooth.begin(38400); TBU
+  bluetooth.begin(38400); 
   //Serial6.begin(9600); TBU
   Serial.println("\nRobot Initialized");
   /* :::::::: MOTOR PINS :::::::: */
@@ -57,6 +58,9 @@ void setup() {
   pinMode(BU_ECHO, INPUT);
   pinMode(LU_ECHO, INPUT);
   pinMode(RU_ECHO, INPUT);
+
+  pinMode(FLDR, INPUT);
+  pinMode(BLDR, INPUT);
 
   pinMode(SWITCH_PIN, INPUT_PULLDOWN);
 
@@ -225,13 +229,13 @@ void loop() {
       DF.run(-100);
     }
 
-    else if (in({5,6,7}, direction) and (ball_distance < MIN_BALL_DISTANCE or Laser_data[1]) ){
+    else if ( DOUBLE_DRIBBLER and (in({5,6,7}, direction) and (ball_distance < MIN_BALL_DISTANCE or Laser_data[1])) ){
       DB.run(-100)
     }
 
     else {
       DF.stop();
-      DB.stop();
+      if (DOUBLE_DRIBBLER) DB.stop();
     }
     */
     
@@ -240,8 +244,8 @@ void loop() {
   
   else {
     mc.stopMotors();
-    DF.stop();
-    DB.stop();
+    //DF.stop();
+    //if (DOUBLE_DRIBBLER) DB.stop();
   }
   digitalWrite(13, HIGH);
   delay(100);

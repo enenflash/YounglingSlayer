@@ -3,6 +3,7 @@ const int ROBOT_TO_BALL_MULTIPLY = 2;
 const int FIELD_WIDTH = 182;
 const int FIELD_HEIGHT = 243;
 const int ULTRASONIC_TO_ROBOT = 11; // distance from ultrasonic to center of robot in cm
+const bool DOUBLE_DRIBBLER = false;
 
 // hard coded ir_angles values
 std::map<int, int> ir_angles = {

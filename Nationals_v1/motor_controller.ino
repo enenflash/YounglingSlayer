@@ -15,6 +15,7 @@ public:
     }
     else {
       digitalWrite(DIR_PIN, HIGH);
+    }
     
 
     analogWrite(PWM_PIN, pwmSpeed);

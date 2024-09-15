@@ -5,6 +5,8 @@
 #include <map> // dictionaries
 #include <vector> // mutable lists with no set size
 #include <numeric> // used for calculating sum of vectors
+#include <SoftwareSerial.h> // bluetooth
+SoftwareSerial bluetooth(0, 1); // pin 0 and 1 Rx and Tx
 
 
 // For IMU
@@ -48,6 +50,8 @@ using namespace std;
 
 // other pins
 #define SWITCH_PIN 36 // 40
+#define FLDR 17
+#define BLDR 16
 
 // other variables
 #define MIN_BALL_DISTANCE 65 // any less than 65 and it counts as close
