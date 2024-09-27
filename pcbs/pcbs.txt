@@ -1,0 +1,6 @@
+PCBs were designed over the course of the entire year.
+
+All PCBs
+> Line Sensor PCB (using TCRT-5000 and RP Pico)
+> Main PCB Bottom (Bottom board containing the Teensy 4.1 and lots of JST-XH headers)
+> Main PCB Top (Contains two switches, the imu, bluetooth module and the battery header)
