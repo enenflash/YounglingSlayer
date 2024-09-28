@@ -3,4 +3,3 @@ Technical Description Paper: https://docs.google.com/document/d/1Q26iA0EsP33Ka1-
 Other:
 Compilation GitHub: https://github.com/robocup-junior/awesome-rcj-soccer
 Lightweight playlist: https://youtube.com/playlist?list=PLJtM6SHBlek71lYfDEa2nBii2hx-cXxx3&si=DT89EiLB2d0DBhif
-M&A: https://bbcrobotics-mna.weebly.com/sensors-and-electronics.html 
