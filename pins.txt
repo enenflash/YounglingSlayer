@@ -1,31 +1,20 @@
-US_R_TRIG: 23
-US_R_ECHO: 22
+// Motor Pins
+#define TL_PWM 5
+#define TL_DIR 4
+#define TR_PWM 6
+#define TR_DIR 7
+#define BL_PWM 3
+#define BL_DIR 2
+#define BR_PWM 9
+#define BR_DIR 8
 
-US_B_TRIG: 21
-US_B_ECHO: 20
+// Ultrasonic Pins
+#define USR_TRIG 34
+#define USR_ECHO 33
+#define USL_TRIG 22
+#define USL_ECHO 23
+#define USB_TRIG 28
+#define USB_ECHO 27
 
-US_L_TRIG: 5
-US_L_ECHO: 24
-
-TR_PWM: 1
-TR_CCW: 2
-
-BR_PWM: 3
-BR_CCW: 4
-
-BL_PWM: 7
-BL_CCW: 8
-
-TL_PWM: 11
-TL_CCW: 12
-
-IR_SDA: 18
-IR_SCL: 19
-
-IMU_SDA: 18
-IMU_SCL: 19
-
-LCD_SDA: 18
-LCD_SCL: 19
-
-Idle Switch: 30
+// IDLE SWITCH
+#define IDLE_PIN 40
