@@ -1,7 +1,7 @@
 Total weight: 1.372kg
 
 General design notes:
-> The motors are not in a perfect 'x' shape but are still at 45 degrees.
+> The motors are not in a perfect 'x' shape but are still at 45 degrees (layout.png).
   - The motors are pushed to the side to give more space for the ball catcher at the front
 > We are using breadboards to test out the circuitry and plan to use PCBs later on.
 > The wheel size of 7cm was chosen - majority of the design is based on the wheel size (planning.png)
