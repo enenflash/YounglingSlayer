@@ -1,0 +1,42 @@
+Total weight: 1.372kg
+
+General design notes:
+> The motors are not in a perfect 'x' shape but are still at 45 degrees.
+  - The motors are pushed to the side to give more space for the ball catcher at the front
+> We are using breadboards to test out the circuitry and plan to use PCBs later on.
+> The wheel size of 7cm was chosen - majority of the design is based on the wheel size (planning.png)
+- Last year in standard, our lego wheel size was also ~7cm.
+
+Wheel (wheel/fusion.png):
+> The wheel is split into 2 layers of rollers each containing 10 rollers.
+> Each roller is wrapped with heatshrink tubing and has a hole for an axle.
+(See wheel/assembly.mp4 for assembly)
+> A coupling piece is used to attach the wheel to the motor.
+- Contains 3mm holes for grub screws to apply pressure on the shaft to prevent the wheel from slipping out.
+- The wheel encases the coupling so the layers do not fall off the motor shaft.
+
+Design is split into 3 sections:
+> Layer 1 (Bottom layer)
+  - holds ultrasonics
+  - connects motor mounts from the bottom
+> Layer 2 (Middle layer)
+  - connects motor mounts from the top
+  - goes under IR and has pillars connecting to L3
+> Layer 3 (Top layer)
+  - goes on top of IR
+  - holds components that go on top such as breadboard, battery, switches
+  - ball catcher hangs down from L3
+  - goal stopper/handle at the back (stops the robot from going into its own goal)
+
+Layer 1 (L1.png):
+> Mounts ultrasonics and motor mounts
+> Has indents on diagonals for motors
+
+Layer 2 and motor mounts (L2_motor_mounts):
+> Motor mounts encase the motor (the motors are attached via 2 screws at the front)
+> Pillars on top of L2 go through holes in the IR to connect to L3.
+
+Layer 3 (L3_holes.png):
+> Wires (motor wires, ultrasonic wires) come from holes under the breadboard
+> Battery is zip-tied using the holes to the left and right of its
+> Breadboard is mounted to L3
