@@ -1,0 +1,7 @@
+> Reduced wheel size from ~7cm to 6.2cm (including rollers)
+  - Increase space for ball catcher and ultrasonics
+  - Gain more torque from reduced speed
+  - Less rollers to deal with when assembling (14 instead of 20 total)
+> 2 screw holes and 2 middle plate 'sticks' instead of 4 each
+> Coupling is thicker to prevent it from breaking/cracking
+> Tighter hole for motor shaft to prevent wobble
