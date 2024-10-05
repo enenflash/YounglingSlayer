@@ -112,7 +112,7 @@ public:
 
     trueBack = rawBack*cos(tilt) + ULTRASONIC_TO_ROBOT;
     
-    y = FIELD_WIDTH - trueBack;
+    y = FIELD_LENGTH- trueBack;
 
     trueLeft = getTrueDist(tilt, rawLeft);
     trueRight = getTrueDist(tilt, rawRight);
