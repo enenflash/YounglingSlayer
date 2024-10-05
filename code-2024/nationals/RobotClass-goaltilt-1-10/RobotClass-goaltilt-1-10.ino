@@ -31,6 +31,7 @@ using namespace std;
 #define IDLE_PIN 40
 
 #define FIELD_WIDTH 182
+#define FIELD_LENGTH 243
 
 const int DIR_HIST_LENGTH = 5;
 const int STR_HIST_LENGTH = 5;
