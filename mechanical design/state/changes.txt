@@ -1,0 +1,36 @@
+Total Weight: 1.1kg
+
+Structural changes:
+
+> Change in shape
+  - Removed the circular shape of the layers to become an octogon
+  - Makes positioning of pieces easier
+
+> Removing Layer 1 (bottom_view.png)
+  - L1 was removed to lose weight as ultrasonics can be attached from L3
+
+> Combining L2 with motor mounts (L2-motors.png)
+  - Motor mounts were removed to lose weight
+  - L2 connects to motors directly
+  - Support pillars connecting L2 to L3 are printed separately so that a change in height does not requite redesigns of L2
+
+> IR Mount (IR_mount.png, structure.png)
+  - L2 connects to the IR mount using support pillars
+  - The IR Mount supports the IR from the bottom (not screwed in)
+  - It also separates the individual sensors to reduce interference and incorrect readings
+  - The IR Mount connects to L3 through the horizontal and vertical square holes
+
+> Goal stopper used as a handle
+  - The goal stopper was redesigned to be easily printable and able to be used as a handle
+
+> Double decker breadboard
+  - We intended to use PCBs during states but due to delays we had to use breadboards again
+  - Half breadboards are stacked over each other to reduce space
+
+> Cage and ultrasonics
+  - Instead of mounting ultrasonics from L1 they are mounted directly to the cage
+  - The cage hangs from L3 via a single screw
+  - Ultrasonics are horizontal to allow them to be lower and make connecting pins easier
+
+> Battery mount
+  - Battery is mounted by encasing it instead of zip ties
