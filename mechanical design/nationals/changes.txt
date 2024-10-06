@@ -1,0 +1,36 @@
+There are 3 new PCBs: (pcbs/)
+> Top Board
+  - Contains IMU, bluetooth module, switches and battery connector
+> Bottom Board
+  - Contains Teensy 4.1 and main circuits: motor, ultrasonic and line sensor wires
+> Line sensor
+
+Reused parts:
+> Ultrasonic mounts and cage pieces
+> Goal stopper
+> Wheels
+
+L2 and Motors (L2-motors-LS.png)
+> The same concept is used where the motors directly attach to L2
+> The Line sensor is mounted below the motors and connects to L2
+
+Support pillars
+> Metal M3 standoffs are used to connect L2 to the IR mount
+  - The metal standoffs are stronger and thinner
+  - The bottom board is held between L2 and the metal standoffs
+> There are 2 supports above each motor instead of 1
+
+IR mount
+> The IR mount is similar to the old one but the ring connecting the dividers is further out
+
+Wheel guards (wheel_guard.png)
+> Wheel guards are used to hold the wheels in place
+  - Reduces the occurence of wheels falling out
+  - Protects wheels from other robots
+
+Wiring (core.png)
+> JST-XH headers and housings are used to securely attach component wiring
+> Wires are crimped by hand to the exact length needed
+
+Hexagons (hexagons.png)
+> Hexagon patterns were added throughout the robot to reduce the weight of printed parts
