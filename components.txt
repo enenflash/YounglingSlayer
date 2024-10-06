@@ -1,0 +1,27 @@
+Microcontroller: Teensy 4.1
+- Website: https://www.pjrc.com/store/teensy41.html
+
+Battery: 12V Lithium Ion DC
+- Website: https://au.lightmalls.com/12v-4000mah-18650-lithium-ion-dc-12-6v-super-rechargeable-battery-pack
+
+IR Sensor: BBR IR Sensor V2 (I2C):
+- Website: https://buildingblockrobotics.com/products/ir-seeker (note this is v3)
+- Tutorial: https://irseeker.buildingblockrobotics.com/ 
+
+IMU: Adafruit BNO055 9-DOF IMU (I2C)
+- Website: https://www.adafruit.com/product/2472
+- Tutorial: https://learn.adafruit.com/adafruit-bno055-absolute-orientation-sensor/arduino-code
+
+Adjustable Voltage Step-down: 
+- https://www.altronics.com.au/p/z6334-dc-dc-buck-module-3-40v-input/
+
+Ultrasonics: HC-SR04
+- https://core-electronics.com.au/hc-sr04-ultrasonic-module-distance-measuring-sensor.html
+
+Bluetooth Module: HC-05
+- https://core-electronics.com.au/bluetooth-module-hc-05.html
+
+Line Sensor PCB: Custom made (UART)
+- Sub-mcu: Raspberry Pi Pico
+- Multiplexer: CD74HC4067M
+- Reflective light sensors: TCRT-5000
