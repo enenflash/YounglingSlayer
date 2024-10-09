@@ -7,7 +7,7 @@ Team repository for Robocup Junior Lightweight Australia 2024
 - School: Rossmoyne Senior High School
 
 ## Programming
-We use C++ in [ArduinoIDE](https://www.arduino.cc/en/software/) to program our microcontroller (Teensy 4.1). (See code-2024/)
+We use C++ in [ArduinoIDE](https://www.arduino.cc/en/software/) to program our microcontroller (Teensy 4.1). (See code-explanations)
 We also use Raspberry Pi Pico as part of our line sensor.
 
 ## 3D Printing
