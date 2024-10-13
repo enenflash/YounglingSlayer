@@ -1,4 +1,3 @@
-// uses 
 #include <iostream>
 #include <map>
 #include <array>
@@ -11,11 +10,12 @@ using namespace std;
 #define S3 5
 #define ADC0 26
 
-// min and max reading can be changed to suit the type of white line
 const int minReading = 50;
 const int maxReading = 100;
 
-// multiplexer map to access different TCRT-5000
+const int minSensors = 2;
+
+// sensor number, {S3, S2, S1, S0}
 std::map<int, array<int, 4>> mpMap = {
   { 1,  {0, 1, 0, 0} }, 
   { 2,  {0, 1, 1, 0} }, 
@@ -35,7 +35,7 @@ std::map<int, array<int, 4>> mpMap = {
   { 16, {1, 1, 0, 1} }
 };
 
-// sensor coordinates from center of robot (in mm)
+// sensor number, {S3, S2, S1, S0}
 std::map<int, array<int, 2>> sensorCoords = {
   { 1,  {0,   40}  },
   { 2,  {35,  61}  },
@@ -63,7 +63,7 @@ int probabilityChart[4];
 int probabilityLine;
 int minPos;
 
-bool allZero;
+int sensorCount = 0;
 
 int get_sensor_reading(int sensor_number) {
   mpReference = mpMap[sensor_number];
@@ -144,7 +144,6 @@ void decrementProbability(int sensorX, int sensorY) {
 
 void setup() {
   Serial.begin(9600);
-  // use Serial1 to send data to Teensy 4.1
   Serial1.begin(9600);
 
   pinMode(ADC0, INPUT);
@@ -164,48 +163,37 @@ void loop() {
   }
 
   // print sensorReadings
-  // for (int i = 0; i < 16; i++) {
-  //   Serial.print(i);
-  //   Serial.print(": ");
-  //   Serial.print(sensorReadings[i]);
-  //   Serial.println("");
-  // }
+  for (int i = 0; i < 16; i++) {
+    Serial.print(i);
+    Serial.print(": ");
+    Serial.print(sensorReadings[i]);
+    Serial.println("");
+  }
 
   // increment/decrement probability of line position
-  allZero = true;
+  sensorCount = 0;
   for (int i = 0; i < 16; i++) {
     if (sensorReadings[i]) {
       incrementProbability(sensorCoords[i][0], sensorCoords[i][1]);
-      allZero = false;
+      sensorCount += 1;
     }
     else {
       decrementProbability(sensorCoords[i][0], sensorCoords[i][1]);
     }
   }
 
-  // probability Line:
-  // 0: no line
-  // 1: top
-  // 2: left
-  // 3: right
-  // 4: bottom
-  
-  if (allZero) {
+  if (sensorCount <= minSensors) {
     Serial.println("No sensor");
-    Serial1.write(0);
+    Serial1.write(1);
   }
   else {
-    // picks highest probability
     probabilityLine = 0;
     for (int i = 1; i < 4; i++) {
       if (probabilityChart[i] > probabilityChart[probabilityLine]) probabilityLine = i;
     }
 
     Serial.println(probabilityLine);
-    Serial1.write(probabilityLine+1);
+    Serial1.write(probabilityLine+2);
   }
-
-  // could also include finding the distance of the line from the center of the robot here
-  
   delay(100);
 }
