@@ -10,7 +10,9 @@ public:
 
   float x = 0, y = 0;
 
+  String message;
   int lineValue;
+  int linePos;
 
 private:
   void getSensorData() {
@@ -30,7 +32,9 @@ private:
 
     // get values from line sensor
     if (Serial6.available()) {
-      lineValue = Serial6.read() - 1;
+      message = Serial6.read();
+      lineValue = message.substring(0, 1).toInt();
+      linePos = message.substring(2).toInt();
     }
   };
 
@@ -84,6 +88,10 @@ public:
     ps.update(tilt*PI/180);
   };
 
+  void drive(float x, float y) {
+    mc.runMotors(x, y, tilt, 0);
+  };
+
   void stop() {
     mc.stopMotors();
   };
@@ -107,9 +115,12 @@ public:
 
   void targetGoal() {
     x = 0, y = 1;
-    getGoalXY(x, y);
-    //goalTilt(20);
-  }
+    // check if history is consistent for either ultrasonic
+    if (ps.reliable) {
+      getGoalXY(x, y);
+      //goalTilt(20);
+    }
+  };
 
   void bashBall() {
     getBallXY(x, y);
@@ -138,17 +149,37 @@ public:
     if (lineValue != 0) {
       mc.setSpeed(LINE_SPEED);
     }
-    if ((lineValue == 1) && (y > 0)) {
-      y = y * -1;
+    if (lineValue == 1 || lineValue == 4) {
+      if (linePos < 15 && linePos > -15) {
+        if (ps.y < FIELD_LENGTH/2) { // front
+          x = 0, y = -1;
+        }
+        else if (ps.y > FIELD_LENGTH/2) {
+          x = 0, y = 1;
+        }
+      }
+      else if (lineValue == 1) {
+        x = 0, y = -1;
+      }
+      else if (lineValue == 4) {
+        x = 0, y = 1;
+      }
     }
-    else if ((lineValue == 2) && (x < 0)) {
-      x = x * -1;
-    }
-    else if ((lineValue == 3) && (x > 0)) {
-      x = x * -1;
-    }
-    else if ((lineValue == 4) && (y < 0)) {
-      y = y * -1;
+    else if (lineValue == 2 || lineValue == 3) {
+      if (linePos < 15 && linePos > -15) {
+        if (ps.y < FIELD_WIDTH/2) { // left
+          x = 1, y = 0;
+        }
+        else if (ps.y > FIELD_WIDTH/2) {
+          x = -1, y = 0;
+        }
+      }
+      else if (lineValue == 2) {
+        x = 1, y = 0;
+      }
+      else if (lineValue == 3) {
+        x = -1, y = 0;
+      }
     }
   };
 
