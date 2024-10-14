@@ -45,6 +45,10 @@ private:
       return;
     }
 
+    if (irAngles[direction] == PI || irAngles[direction] == 2*PI) {
+      ballX = 0, ballY = -1;
+    }
+
     if (irAngles[direction] > PI && irAngles[direction] != 2*PI) {
       if (irAngles[direction] == 3*PI/2) {
         if (ps.x < FIELD_WIDTH/2) {
@@ -61,9 +65,9 @@ private:
         ballX += ROBOT_TO_BALL_SIDE;
       }
     }
-    else if (irAngles[direction] == PI || irAngles[direction] == 2*PI) {
-      ballY -= ROBOT_TO_BALL_BACK * 2;
-    }
+    // else if (irAngles[direction] == PI || irAngles[direction] == 2*PI) {
+    //   ballY -= ROBOT_TO_BALL_BACK * 2;
+    // }
     else {
       ballY -= ROBOT_TO_BALL_BACK;
     }

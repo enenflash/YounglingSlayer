@@ -69,14 +69,14 @@ void printOffset() {
 void printLine() {
   Serial.print("Line: ");
   Serial.println(bot.lineValue);
-}
+};
 
 void printMovement() {
   Serial.print("MoveX: ");
   Serial.print(bot.x);
   Serial.print(" MoveY: ");
   Serial.println(bot.y);
-}
+};
 
 void loop() {
   if (idle) {
@@ -87,7 +87,7 @@ void loop() {
       return;
     }
   }
-
+\
   bot.update();
 
   Serial.print("Strat: ");
@@ -96,10 +96,10 @@ void loop() {
     Serial.println("Stop");
     bot.stop();
   }
-  else if (bot.direction == 12) {
-    Serial.println("Goal target");
-    bot.targetGoal();
-  }
+  // else if (bot.direction == 12) {
+  //   Serial.println("Goal target");
+  //   bot.targetGoal();
+  // }
   // else if (bot.ps.trueBack < 20 && bot.direction != 6) {
   //   Serial.println(" Bash");
   //   bot.bashBall();
@@ -112,7 +112,7 @@ void loop() {
 
   bot.stopAtLine();
 
-  printLine();
+  printIR();
 
   bot.run();
 }

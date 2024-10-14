@@ -2,12 +2,13 @@
 #include <array>
 #include <map>
 #include <algorithm>
-using namespace std;
 
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
+
+using namespace std;
 
 // Motor Pins
 #define TL_PWM 5
@@ -36,12 +37,11 @@ using namespace std;
 // History lengths
 const int DIR_HIST_LENGTH = 5;
 const int STR_HIST_LENGTH = 5;
-
 const int ULT_HIST_LENGTH = 5;
 
 // Strength distances
-const int ROBOT_TO_BALL_SIDE = 12;
-const int ROBOT_TO_BALL_BACK = 9;
+const int ROBOT_TO_BALL_SIDE = 14;
+const int ROBOT_TO_BALL_BACK = 12;
 const int ULTRASONIC_TO_ROBOT = 10;
 
 // Positions
