@@ -53,7 +53,7 @@ private:
       tilt = -(360 - tilt);
     }
 
-    if (tilt < 10 and tilt > -10) {
+    if (tilt < TILT_RANGE and tilt > -TILT_RANGE) {
       tilt = 0;
     }
     
@@ -94,7 +94,7 @@ private:
 
     for (int i = 0; i < 4; i++) {
       // +0.0 converts motorRatio to double
-      motorSpeeds[i] = ((motorRatio[i] + 0.0) / largest * speed) + t - o;
+      motorSpeeds[i] = ((motorRatio[i] + 0.0) / largest * speed) + t + o;
     }
 
     //TL, TR, BL, BR

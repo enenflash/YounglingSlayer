@@ -34,64 +34,105 @@ private:
     }
   };
 
-  void getXY(int direction, int ballDist) {
-    if (direction == 0) {
-      x = 0, y = 0;
-      return;
-    }
-    else if (direction == 12) {
-      x = 0, y = 1;
-      return;
-    }
-
+  void getBallXY(float &x, float &y) {
     x = cos(irAngles[direction]) * ballDist;
     y = sin(irAngles[direction]) * ballDist;
+  };
+
+  void getAroundBall(float &ballX, float &ballY) {
+    if (direction == 6 && strength > 38) {
+      ballX = -1, ballY = 0;
+      return;
+    }
 
     if (irAngles[direction] > PI && irAngles[direction] != 2*PI) {
       if (irAngles[direction] == 3*PI/2) {
-        // if (ps.x < FIELD_WIDTH) {
-        //   x += ROBOT_TO_BALL_SIDE;
-        // }
-        // else {
-        //   x -= ROBOT_TO_BALL_SIDE;
-        // }
-        x += ROBOT_TO_BALL_SIDE;
+        if (ps.x < FIELD_WIDTH/2) {
+          ballX += ROBOT_TO_BALL_SIDE;
+        }
+        else {
+          ballX -= ROBOT_TO_BALL_SIDE;
+        }
       }
       else if (irAngles[direction] > 3*PI/2) {
-        x -= ROBOT_TO_BALL_SIDE;
+        ballX -= ROBOT_TO_BALL_SIDE;
       }
       else {
-        x += ROBOT_TO_BALL_SIDE;
+        ballX += ROBOT_TO_BALL_SIDE;
       }
     }
     else if (irAngles[direction] == PI || irAngles[direction] == 2*PI) {
-      y -= ROBOT_TO_BALL_BACK * 2;
+      ballY -= ROBOT_TO_BALL_BACK * 2;
     }
     else {
-      y -= ROBOT_TO_BALL_BACK;
+      ballY -= ROBOT_TO_BALL_BACK;
     }
-  };
-
-public:
-
-  void update() {
-    // get sensor data using sensor classes
-    getSensorData();
-    ps.update(tilt*PI/180);
-
-    // Serial.print("x: ");
-    // Serial.print(x);
-    // Serial.print(" y: ");
-    // Serial.println(y);
   };
 
   bool ballBehind() {
     return (PI < irAngles[direction] && irAngles[direction] < 2*PI);
   };
 
+public:
+  void update() {
+    // get sensor data using sensor classes
+    getSensorData();
+    ps.update(tilt*PI/180);
+  };
+
+  void stop() {
+    mc.stopMotors();
+  };
+
+  void getGoalXY(float &x, float &y) {
+    x = -(ps.x - GOAL_POS_X);
+    y = ps.y - GOAL_POS_Y;
+  };
+
+  void goalTilt(int angle) {
+    if (ps.x < FIELD_WIDTH/2 - GOAL_TILT_BOUND) {
+      offset = -angle;
+    }
+    else if (ps.x > FIELD_WIDTH/2 + GOAL_TILT_BOUND) {
+      offset = angle;
+    }
+    else {
+      offset = 0;
+    }
+  };
+
+  void targetGoal() {
+    x = 0, y = 1;
+    getGoalXY(x, y);
+    //goalTilt(20);
+  }
+
+  void bashBall() {
+    getBallXY(x, y);
+    if (direction > PI && direction != 2*PI) {
+      getAroundBall(x, y);
+    }
+  };
+
+  void getBehindBall() {
+    // get XY based on ball position
+    getBallXY(x, y);
+    getAroundBall(x, y);
+    mc.setSpeed(100);
+  };
+
+  void adjustSpeed() {
+    if (irAngles[direction] > PI && irAngles[direction] < 2*PI) {
+      mc.setSpeed(BALL_BEHIND_SPEED);
+    }
+    else {
+      mc.setSpeed(100);
+    }
+  };
+
   void stopAtLine() {
     if (lineValue != 0) {
-      mc.setSpeed(50);
+      mc.setSpeed(LINE_SPEED);
     }
     if ((lineValue == 1) && (y > 0)) {
       y = y * -1;
@@ -105,74 +146,28 @@ public:
     else if ((lineValue == 4) && (y < 0)) {
       y = y * -1;
     }
-    Serial.print("Line Value: ");
-    Serial.print(lineValue);
-    Serial.print(" x: ");
-    Serial.print(x);
-    Serial.print(" y: ");
-    Serial.println(y);
   };
 
-  void goalTilt() {
-    if (direction != 12) {
-      offset = 0;
-      return;
+  void manualDefendGoal() {
+    x = 0, y = 0;
+
+    if (ps.x < FIELD_WIDTH/2 - GOAL_RANGE) {
+      x = 1;
+    }
+    else if (ps.x > FIELD_WIDTH/2 + GOAL_RANGE) {
+      x = -1;
     }
 
-    if (x < FIELD_WIDTH - 25) {
-      offset = -20;
+    if (ps.y < GOAL_DEFENCE_Y - GOAL_RANGE) {
+      y = -1;
     }
-    else if (x > FIELD_WIDTH + 25) {
-      offset = 20;
-    }
-    else {
-      offset = 0;
-    }
-  }
-
-  void getBehindBall() {
-    // get XY based on ball position
-    getXY(direction, ballDist);
-    mc.setSpeed(100);
-  };
-
-  void testLine() {
-    switch (lineValue) {
-      case 1:
-        x = -1, y = -1;
-        break;
-      case 2:
-        x = 1, y = 0;
-        break;
-      case 3:
-        x = 0, y = -1;
-        break;
-      case 4:
-        x = 1, y = 1;
-        break;
-      default:
-        x = 0, y = 1;
-        break;
-    }
-
-    Serial.print("test line: ");
-    Serial.println(lineValue);
-
-    // run motors using motor controller
-    mc.runMotors(x, y, 0);
-  };
-
-  void adjustSpeed() {
-    if (irAngles[direction] >= PI) {
-      mc.setSpeed(60);
-    }
-    else {
-      mc.setSpeed(100);
+    else if (ps.y > GOAL_DEFENCE_Y + GOAL_RANGE) {
+      y = 1;
     }
   };
 
   void run() {
     // run motors using motor controller
     mc.runMotors(x, y, tilt, offset);
-  }
+  };
 };

@@ -81,8 +81,8 @@ private:
     avgLeft = getAvgDist(leftHistory);
     avgRight = getAvgDist(rightHistory);
 
-    leftBlocked = (trueLeft > avgLeft + 10) || (trueLeft < avgLeft - 10);
-    rightBlocked = (trueRight > avgRight + 10) || (trueRight < avgRight - 10);
+    leftBlocked = (trueLeft > avgLeft + ULT_RANGE) || (trueLeft < avgLeft - ULT_RANGE);
+    rightBlocked = (trueRight > avgRight + ULT_RANGE) || (trueRight < avgRight - ULT_RANGE);
 
     if (leftBlocked && rightBlocked) {
       return 808;
@@ -111,8 +111,8 @@ public:
     rawBack = ultBack.getDistance();
 
     trueBack = rawBack*cos(tilt) + ULTRASONIC_TO_ROBOT;
-    
-    y = FIELD_LENGTH- trueBack;
+
+    y = FIELD_LENGTH - trueBack;
 
     trueLeft = getTrueDist(tilt, rawLeft);
     trueRight = getTrueDist(tilt, rawRight);
@@ -138,5 +138,5 @@ public:
     }
 
     updateHistory();
-  }
+  };
 };

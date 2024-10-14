@@ -33,14 +33,31 @@ using namespace std;
 #define FIELD_WIDTH 182
 #define FIELD_LENGTH 243
 
+// History lengths
 const int DIR_HIST_LENGTH = 5;
 const int STR_HIST_LENGTH = 5;
 
 const int ULT_HIST_LENGTH = 5;
 
-const int ROBOT_TO_BALL_SIDE = 9;
+// Strength distances
+const int ROBOT_TO_BALL_SIDE = 12;
 const int ROBOT_TO_BALL_BACK = 9;
 const int ULTRASONIC_TO_ROBOT = 10;
+
+// Positions
+const int GOAL_DEFENCE_Y = 220;
+const int GOAL_POS_X = FIELD_WIDTH/2;
+const int GOAL_POS_Y = 30;
+
+// Ranges
+const int TILT_RANGE = 10;
+const int ULT_RANGE = 5;
+const int GOAL_RANGE = 15;
+const int GOAL_TILT_BOUND = 23;
+
+// Speeds
+const int BALL_BEHIND_SPEED = 60; // note robot doesn't slow down at 3 and 9
+const int LINE_SPEED = 50;
 
 // IR direction to radians
 std::map<int, int> irAngles = {

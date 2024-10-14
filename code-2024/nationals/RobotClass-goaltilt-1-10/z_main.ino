@@ -25,6 +25,8 @@ void setup() {
   pinMode(BL_DIR, OUTPUT);
   pinMode(BR_DIR, OUTPUT);
 
+  /* :::::::: ULTR PINS :::::::: */
+
   pinMode(USL_TRIG, OUTPUT);
   pinMode(USR_TRIG, OUTPUT);
   pinMode(USB_TRIG, OUTPUT);
@@ -45,6 +47,37 @@ void setup() {
   Wire.begin();
 }
 
+void printIR() {
+  Serial.print("Direction: ");
+  Serial.print(bot.direction);
+  Serial.print(" Strength: ");
+  Serial.println(bot.strength);
+};
+
+void printPos() {
+  Serial.print("PosX: ");
+  Serial.print(bot.ps.x);
+  Serial.print(" PosY: ");
+  Serial.println(bot.ps.y);
+};
+
+void printOffset() {
+  Serial.print("Offset: ");
+  Serial.println(bot.offset);
+};
+
+void printLine() {
+  Serial.print("Line: ");
+  Serial.println(bot.lineValue);
+}
+
+void printMovement() {
+  Serial.print("MoveX: ");
+  Serial.print(bot.x);
+  Serial.print(" MoveY: ");
+  Serial.println(bot.y);
+}
+
 void loop() {
   if (idle) {
     if (digitalRead(IDLE_PIN) == HIGH) {
@@ -57,12 +90,37 @@ void loop() {
 
   bot.update();
 
-  bot.getBehindBall();
-  bot.adjustSpeed();
+  Serial.print("Strat: ");
+
+  if (bot.direction == 0) {
+    Serial.println("Stop");
+    bot.stop();
+  }
+  else if (bot.direction == 12) {
+    Serial.println("Goal target");
+    bot.targetGoal();
+  }
+  // else if (bot.ps.trueBack < 20 && bot.direction != 6) {
+  //   Serial.println(" Bash");
+  //   bot.bashBall();
+  // }
+  else {
+    Serial.println("Get behind ball");
+    bot.getBehindBall();
+    bot.adjustSpeed();
+  }
+
   bot.stopAtLine();
 
-  bot.goalTilt();
+  printLine();
 
   bot.run();
 }
 
+/*
+getBehindBall() -> classic getXY
+adjustSpeed() -> go slower when ball behind
+stopAtLine() -> stay within lines
+targetGoal() -> target the goal
+manualDefendGoal() -> manually set xy to get to goal
+*/
