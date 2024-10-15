@@ -135,20 +135,48 @@ public:
   };
 
   void stopAtLine() {
+
     if (lineValue != 0) {
       mc.setSpeed(LINE_SPEED);
     }
+
     if ((lineValue == 1) && (y > 0)) {
-      y = y * -1;
+      //y = y * -1;
+      y = -1;
+      x = 0;
     }
-    else if ((lineValue == 2) && (x < 0)) {
-      x = x * -1;
+    else if ((lineValue == 2) ) { // && (x < 0)
+     //x = x * -1;
+      if (ps.x < 40) {
+        x = 1;
+        y = 0;
+      }
+    
+      else {
+        mc.setSpeed(100); // set speed to 100 as last resort to get out quick
+        x = -1;
+        y = 0;
+      }
     }
-    else if ((lineValue == 3) && (x > 0)) {
-      x = x * -1;
+
+    else if ((lineValue == 3) ) { //&& (x > 0)
+      if (ps.x < 40) {
+      mc.setSpeed(100); // set speed to 100 as last resort to get out quick
+      x = 1;
+      y = 0;
+      }
+
+      else {
+      x = -1;
+      y = 0;
+      }
+
     }
+
     else if ((lineValue == 4) && (y < 0)) {
-      y = y * -1;
+      //y = y * -1;
+      y = 1;
+      x = 0;
     }
   };
 
