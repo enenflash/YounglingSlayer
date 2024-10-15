@@ -6,6 +6,7 @@ public:
   PositionSystem ps;
   Adafruit_BNO055 bno = Adafruit_BNO055(55);
   IRSensor ir;
+  Bluetooth Bluetoothcomm;
 
   // defining variables
   float tilt = 0, offset = 0;
@@ -95,6 +96,38 @@ public:
     ps.update(tilt*PI/180);
   };
 
+  void updateBluetooth() {
+    // send bluetooth data
+    Bluetoothcomm.Send_Data(ps.x, ps.y, direction);
+
+    // recieve bluetooth data
+    other_data = Bluetoothcomm.Get_Data();
+    
+    if (other_data != "NONE") {
+      int comma_index = other_data.indexOf(",");
+      int second_comma_index = other_data.indexOf(",", comma_index + 1);
+      
+      if (comma_index != -1 and second_comma_index != -1) {
+        other_x = other_data.substring(0, comma_index).toInt();
+        other_y = other_data.substring(comma_index + 1, second_comma_index).toInt();
+        other_dir = other_data.substring(second_comma_index + 1).toInt();
+      }
+
+      else {
+        other_x = 0;
+        other_y = 0;
+        other_dir = 0;
+      }
+    }
+
+    else {
+      other_x = 0;
+      other_y = 0;
+      other_dir = 0;
+    }
+  };
+
+  // stop all motors
   void drive(float x, float y) {
     mc.runMotors(x, y, tilt, 0);
   };
@@ -210,7 +243,7 @@ public:
       y = 1;
     }
   };
-  
+
   void run() {
     // run motors using motor controller
     mc.runMotors(x, y, tilt, offset);
