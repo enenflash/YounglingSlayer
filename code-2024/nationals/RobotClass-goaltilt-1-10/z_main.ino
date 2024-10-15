@@ -1,6 +1,7 @@
 Robot bot;
 bool idle = true;
 
+/* :::::::: SETUP :::::::: */
 void setup() {
   Serial.begin(9600);
   Serial.println("\nRobot Initialized");
@@ -47,6 +48,8 @@ void setup() {
   Wire.begin();
 }
 
+/* :::::::: DEBUGGING :::::::: */
+
 void printIR() {
   Serial.print("Direction: ");
   Serial.print(bot.direction);
@@ -78,7 +81,9 @@ void printMovement() {
   Serial.println(bot.y);
 };
 
+/* :::::::: MAIN :::::::: */
 void loop() {
+  // check idle switch
   if (idle) {
     if (digitalRead(IDLE_PIN) == HIGH) {
       idle = false;
@@ -110,10 +115,12 @@ void loop() {
     bot.adjustSpeed();
   }
 
+  // stay within the lines
   bot.stopAtLine();
 
   printIR();
 
+  // run robot
   bot.run();
 }
 

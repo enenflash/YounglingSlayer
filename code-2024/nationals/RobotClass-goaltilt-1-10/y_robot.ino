@@ -1,10 +1,13 @@
+/* :::::::: MAIN ROBOT CLASS :::::::: */
 class Robot {
 public:
+  // defining obkects
   MotorController mc = MotorController(false);
   PositionSystem ps;
   Adafruit_BNO055 bno = Adafruit_BNO055(55);
   IRSensor ir;
 
+  // defining variables
   float tilt = 0, offset = 0;
   int direction = 0, strength = 0, ballDist = 0;
 
@@ -13,6 +16,7 @@ public:
   int lineValue;
 
 private:
+  /* :::::::: FUNCTIONS :::::::: */
   void getSensorData() {
     // READ IR
     ir.readData();
@@ -34,11 +38,13 @@ private:
     }
   };
 
+  // get x,y coordinants of the ball using ir sensor
   void getBallXY(float &x, float &y) {
     x = cos(irAngles[direction]) * ballDist;
     y = sin(irAngles[direction]) * ballDist;
   };
 
+  // moving around the ball to avoid own goals
   void getAroundBall(float &ballX, float &ballY) {
     if (direction == 6 && strength > 38) {
       ballX = -1, ballY = 0;
@@ -73,6 +79,7 @@ private:
     }
   };
 
+  // checks if the ball is behind the robot
   bool ballBehind() {
     return (PI < irAngles[direction] && irAngles[direction] < 2*PI);
   };
@@ -84,15 +91,18 @@ public:
     ps.update(tilt*PI/180);
   };
 
+  // stop all motors
   void stop() {
     mc.stopMotors();
   };
 
+  // gets the goal x,y coordinants using ultrasonics
   void getGoalXY(float &x, float &y) {
     x = -(ps.x - GOAL_POS_X);
     y = ps.y - GOAL_POS_Y;
   };
 
+  // calculates robot's tilt towards the goals
   void goalTilt(int angle) {
     if (ps.x < FIELD_WIDTH/2 - GOAL_TILT_BOUND) {
       offset = -angle;
@@ -111,6 +121,7 @@ public:
     //goalTilt(20);
   }
 
+  // hitting ball to side as last resort to avoid goal
   void bashBall() {
     getBallXY(x, y);
     if (direction > PI && direction != 2*PI) {
@@ -118,6 +129,7 @@ public:
     }
   };
 
+  // gets behind the ball to catch the ball
   void getBehindBall() {
     // get XY based on ball position
     getBallXY(x, y);
@@ -125,6 +137,7 @@ public:
     mc.setSpeed(100);
   };
 
+  // ajusts the robot's speed
   void adjustSpeed() {
     if (irAngles[direction] > PI && irAngles[direction] < 2*PI) {
       mc.setSpeed(BALL_BEHIND_SPEED);
@@ -134,6 +147,7 @@ public:
     }
   };
 
+  // stays within the lines
   void stopAtLine() {
 
     if (lineValue != 0) {
@@ -180,6 +194,7 @@ public:
     }
   };
 
+  // moves infront of goal to defend
   void manualDefendGoal() {
     x = 0, y = 0;
 
@@ -197,7 +212,7 @@ public:
       y = 1;
     }
   };
-
+  
   void run() {
     // run motors using motor controller
     mc.runMotors(x, y, tilt, offset);

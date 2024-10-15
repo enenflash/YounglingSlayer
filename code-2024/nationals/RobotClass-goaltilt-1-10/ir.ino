@@ -27,6 +27,7 @@ private:
   };
 
 public:
+  // reading data from ir sensor
   void readData() {
     Wire.requestFrom(0x08, 2);
     if (Wire.available()) {
@@ -38,10 +39,12 @@ public:
   int getRawDirection() {
     return direction;
   };
+
   int getRawStrength() {
     return strength;
   };
 
+  // filtering direction using history and most common values
   int getFilteredDirection() {
     for (int i = 0; i < DIR_HIST_LENGTH; i++) {
       if (i != DIR_HIST_LENGTH-1) {

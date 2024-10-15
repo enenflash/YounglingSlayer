@@ -8,7 +8,7 @@ public:
     echo_pin = ECHO_PIN;
   }
   
-
+  // gets the raw distance of ultrasonics
   int getDistance() {
     long duration, ult_distance;
 
