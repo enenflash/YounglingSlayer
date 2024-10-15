@@ -40,14 +40,16 @@ const int STR_HIST_LENGTH = 5;
 const int ULT_HIST_LENGTH = 5;
 
 // Strength distances
-const int ROBOT_TO_BALL_SIDE = 14;
-const int ROBOT_TO_BALL_BACK = 12;
+const int RTB_SIDE = 15;
+const int RTB_SIDE_EXTRA = 20;
+const int RTB_BACK = 12;
 const int ULTRASONIC_TO_ROBOT = 10;
+const int SLOW_DOWN_STRENGTH = 30;
 
 // Positions
 const int GOAL_DEFENCE_Y = 220;
 const int GOAL_POS_X = FIELD_WIDTH/2;
-const int GOAL_POS_Y = 30;
+const int GOAL_POS_Y = 50;
 
 // Ranges
 const int TILT_RANGE = 10;
@@ -56,11 +58,12 @@ const int GOAL_RANGE = 15;
 const int GOAL_TILT_BOUND = 23;
 
 // Speeds
+const int BALL_SIDE_SPEED = 80;
 const int BALL_BEHIND_SPEED = 60; // note robot doesn't slow down at 3 and 9
 const int LINE_SPEED = 50;
 
 // IR direction to radians
-std::map<int, int> irAngles = {
+std::map<int, float> irAngles = {
   { 0,  0        },
   { 11, PI/3     },
   { 10, PI/6     },

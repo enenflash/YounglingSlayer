@@ -38,44 +38,48 @@ private:
     }
   };
 
-  // get x,y coordinants of the ball using ir sensor
-  void getBallXY(float &x, float &y) {
-    x = cos(irAngles[direction]) * ballDist;
-    y = sin(irAngles[direction]) * ballDist;
+  void getBallXY(float &ballX, float &ballY) {
+    ballX = cos(irAngles[direction]) * ballDist;
+    ballY = sin(irAngles[direction]) * ballDist;
   };
 
-  // moving around the ball to avoid own goals
-  void getAroundBall(float &ballX, float &ballY) {
-    if (direction == 6 && strength > 38) {
-      ballX = -1, ballY = 0;
+  void getAroundBall(float &x, float &y) {
+    if (direction == 6 && strength > 36) {
+      if (ps.x < FIELD_WIDTH/2) {
+        x = 1, y = 0;
+      }
+      else {
+        x = -1, y = 0;
+      }
       return;
     }
 
-    if (irAngles[direction] == PI || irAngles[direction] == 2*PI) {
-      ballX = 0, ballY = -1;
+    if (direction == 3 || direction == 9) {
+      x = 0, y = -1;
+      return;
     }
 
-    if (irAngles[direction] > PI && irAngles[direction] != 2*PI) {
-      if (irAngles[direction] == 3*PI/2) {
+    if (irAngles[direction] > PI && irAngles[direction] < 2*PI) {
+      if (direction == 6) {
         if (ps.x < FIELD_WIDTH/2) {
-          ballX += ROBOT_TO_BALL_SIDE;
+          x += RTB_SIDE;
         }
         else {
-          ballX -= ROBOT_TO_BALL_SIDE;
+          x -= RTB_SIDE;
         }
       }
       else if (irAngles[direction] > 3*PI/2) {
-        ballX -= ROBOT_TO_BALL_SIDE;
+        x -= RTB_SIDE;
       }
       else {
-        ballX += ROBOT_TO_BALL_SIDE;
+        x += RTB_SIDE;
       }
     }
     // else if (irAngles[direction] == PI || irAngles[direction] == 2*PI) {
-    //   ballY -= ROBOT_TO_BALL_BACK * 2;
+    //   y -= RTB_BACK * 2;
     // }
     else {
-      ballY -= ROBOT_TO_BALL_BACK;
+      y -= RTB_BACK;
     }
   };
 
@@ -91,7 +95,10 @@ public:
     ps.update(tilt*PI/180);
   };
 
-  // stop all motors
+  void drive(float x, float y) {
+    mc.runMotors(x, y, tilt, 0);
+  };
+
   void stop() {
     mc.stopMotors();
   };
@@ -117,14 +124,16 @@ public:
 
   void targetGoal() {
     x = 0, y = 1;
-    getGoalXY(x, y);
-    //goalTilt(20);
-  }
+    if (ps.reliable) {
+      getGoalXY(x, y);
+      //goalTilt(20);
+    }
+  };
 
   // hitting ball to side as last resort to avoid goal
   void bashBall() {
     getBallXY(x, y);
-    if (direction > PI && direction != 2*PI) {
+    if (irAngles[direction] > PI && direction != 9) {
       getAroundBall(x, y);
     }
   };
@@ -134,12 +143,14 @@ public:
     // get XY based on ball position
     getBallXY(x, y);
     getAroundBall(x, y);
-    mc.setSpeed(100);
   };
 
   // ajusts the robot's speed
   void adjustSpeed() {
-    if (irAngles[direction] > PI && irAngles[direction] < 2*PI) {
+    if (direction == 3 || direction == 9) {
+      mc.setSpeed(BALL_SIDE_SPEED);
+    }
+    else if (irAngles[direction] > PI && irAngles[direction] < 2*PI && strength > SLOW_DOWN_STRENGTH) {
       mc.setSpeed(BALL_BEHIND_SPEED);
     }
     else {
@@ -149,48 +160,35 @@ public:
 
   // stays within the lines
   void stopAtLine() {
-
     if (lineValue != 0) {
       mc.setSpeed(LINE_SPEED);
     }
 
-    if ((lineValue == 1) && (y > 0)) {
-      //y = y * -1;
-      y = -1;
-      x = 0;
+    if (lineValue == 1 && y > 0) {
+      x = 0, y = -1;
     }
-    else if ((lineValue == 2) ) { // && (x < 0)
-     //x = x * -1;
+    else if (lineValue == 4 && y < 0) {
+      x = 0, y = 1;
+    }
+    else if (lineValue == 2) { // && (x < 0)
       if (ps.x < 40) {
-        x = 1;
-        y = 0;
+        x = 1, y = 0;
       }
-    
       else {
-        mc.setSpeed(100); // set speed to 100 as last resort to get out quick
-        x = -1;
-        y = 0;
+        // set speed to 100 as last resort to get out quick
+        mc.setSpeed(100);
+        x = -1, y = 0;
       }
     }
-
-    else if ((lineValue == 3) ) { //&& (x > 0)
+    else if (lineValue == 3) { //&& (x > 0)
       if (ps.x < 40) {
-      mc.setSpeed(100); // set speed to 100 as last resort to get out quick
-      x = 1;
-      y = 0;
+        // set speed to 100 as last resort to get out quick
+        mc.setSpeed(100);
+        x = 1, y = 0;
       }
-
       else {
-      x = -1;
-      y = 0;
+        x = -1, y = 0;
       }
-
-    }
-
-    else if ((lineValue == 4) && (y < 0)) {
-      //y = y * -1;
-      y = 1;
-      x = 0;
     }
   };
 

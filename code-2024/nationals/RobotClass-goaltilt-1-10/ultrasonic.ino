@@ -3,12 +3,13 @@ class Ultrasonic {
 public:
   int trigger_pin;
   int echo_pin;
+
   Ultrasonic(int TRIGGER_PIN, int ECHO_PIN) {
     trigger_pin = TRIGGER_PIN;
     echo_pin = ECHO_PIN;
   }
   
-  // gets the raw distance of ultrasonics
+
   int getDistance() {
     long duration, ult_distance;
 
@@ -21,7 +22,7 @@ public:
 
     // get duration in miliseconds
     duration = pulseIn(echo_pin, HIGH, 20000);
-
+    
     // converet to cm
     ult_distance = (duration / 29) / 2;  // Calculating the ult_distance
 
@@ -29,7 +30,6 @@ public:
   }
 };
 
-// position system class used for creating grid of field
 class PositionSystem {
 private: 
   int leftHistory[ULT_HIST_LENGTH] {0};
@@ -66,7 +66,6 @@ private:
     }
   }
 
-  // calculate true distance of sides accounting for robot's tilt
   float getTrueDist(float tilt, int rawValue) {
     return cos(tilt)*rawValue + ULTRASONIC_TO_ROBOT;
   }
@@ -86,12 +85,14 @@ private:
 
     leftBlocked = (trueLeft > avgLeft + ULT_RANGE) || (trueLeft < avgLeft - ULT_RANGE);
     rightBlocked = (trueRight > avgRight + ULT_RANGE) || (trueRight < avgRight - ULT_RANGE);
-
+    
+    reliable = true;
     if (leftBlocked && rightBlocked) {
+      reliable = false;
       return 808;
     }
     else if (leftBlocked) {
-      return FIELD_WIDTH - trueRight
+      return FIELD_WIDTH - trueRight;
     }
     else {
       return trueLeft;
@@ -107,7 +108,8 @@ public:
   int rawLeft = 0, rawRight = 0, rawBack = 0;
   float trueLeft = 0, trueRight = 0, trueBack = 0;
 
-  // update mesurements
+  bool reliable = true;
+
   void update(float tilt) {
     // get raw distances from ultrasonics
     rawLeft = ultLeft.getDistance();
