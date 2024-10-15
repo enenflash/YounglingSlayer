@@ -16,6 +16,9 @@ public:
 
   int lineValue;
 
+  String teamData;
+  int teamX, teamY, teamDir;
+
 private:
   /* :::::::: FUNCTIONS :::::::: */
   void getSensorData() {
@@ -101,29 +104,23 @@ public:
     Bluetoothcomm.Send_Data(ps.x, ps.y, direction);
 
     // recieve bluetooth data
-    other_data = Bluetoothcomm.Get_Data();
+    teamData = Bluetoothcomm.Get_Data();
     
-    if (other_data != "NONE") {
-      int comma_index = other_data.indexOf(",");
-      int second_comma_index = other_data.indexOf(",", comma_index + 1);
+    if (teamData != "NONE") {
+      int comma_index = teamData.indexOf(",");
+      int second_comma_index = teamData.indexOf(",", comma_index + 1);
       
-      if (comma_index != -1 and second_comma_index != -1) {
-        other_x = other_data.substring(0, comma_index).toInt();
-        other_y = other_data.substring(comma_index + 1, second_comma_index).toInt();
-        other_dir = other_data.substring(second_comma_index + 1).toInt();
+      if (comma_index != -1 && second_comma_index != -1) {
+        teamX = teamData.substring(0, comma_index).toInt();
+        teamY = teamData.substring(comma_index + 1, second_comma_index).toInt();
+        teamDir = teamData.substring(second_comma_index + 1).toInt();
       }
-
       else {
-        other_x = 0;
-        other_y = 0;
-        other_dir = 0;
+        teamX = 0, teamY = 0, teamDir = 0;
       }
     }
-
     else {
-      other_x = 0;
-      other_y = 0;
-      other_dir = 0;
+      teamX = 0, teamY = 0, teamDir = 0;
     }
   };
 
