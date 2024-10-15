@@ -29,6 +29,7 @@ public:
   }
 };
 
+// position system class used for creating grid of field
 class PositionSystem {
 private: 
   int leftHistory[ULT_HIST_LENGTH] {0};
@@ -65,6 +66,7 @@ private:
     }
   }
 
+  // calculate true distance of sides accounting for robot's tilt
   float getTrueDist(float tilt, int rawValue) {
     return cos(tilt)*rawValue + ULTRASONIC_TO_ROBOT;
   }
@@ -77,6 +79,7 @@ private:
     return (sum + 0.0) / ULT_HIST_LENGTH;
   }
 
+  // deciding with ultrasonic to use by checking if a sensor is blocked
   int getLeftDistBlocked() {
     avgLeft = getAvgDist(leftHistory);
     avgRight = getAvgDist(rightHistory);
@@ -88,7 +91,7 @@ private:
       return 808;
     }
     else if (leftBlocked) {
-      return FIELD_WIDTH - trueRight;
+      return FIELD_WIDTH - trueRight
     }
     else {
       return trueLeft;
@@ -104,6 +107,7 @@ public:
   int rawLeft = 0, rawRight = 0, rawBack = 0;
   float trueLeft = 0, trueRight = 0, trueBack = 0;
 
+  // update mesurements
   void update(float tilt) {
     // get raw distances from ultrasonics
     rawLeft = ultLeft.getDistance();
