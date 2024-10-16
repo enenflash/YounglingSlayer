@@ -194,10 +194,10 @@ public:
       mc.setSpeed(LINE_SPEED);
     }
 
-    if (lineValue == 1 && y > 0) {
+    if (lineValue == 1) { // && y > 0
       x = 0, y = -1;
     }
-    else if (lineValue == 4 && y < 0) {
+    else if (lineValue == 4) { // && y < 0
       x = 0, y = 1;
     }
     else if (lineValue == 2) { // && (x < 0)
