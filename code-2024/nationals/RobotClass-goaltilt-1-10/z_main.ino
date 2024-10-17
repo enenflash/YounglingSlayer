@@ -7,6 +7,7 @@ void setup() {
   Serial.begin(9600);
   Serial.println("\nRobot Initialized");
 
+  bluetooth.begin(38400);
   Serial6.begin(9600);
 
   pinMode(IDLE_PIN, INPUT);
