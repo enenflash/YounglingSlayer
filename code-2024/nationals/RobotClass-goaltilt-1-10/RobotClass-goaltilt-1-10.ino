@@ -57,6 +57,7 @@ const int TILT_RANGE = 10;
 const int ULT_RANGE = 5;
 const int GOAL_RANGE = 15;
 const int GOAL_TILT_BOUND = 23;
+const int TEAM_STRENGTH_DIFFERANCE = 10;
 
 // Speeds
 const int BALL_SIDE_SPEED = 80;
