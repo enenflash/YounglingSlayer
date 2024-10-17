@@ -2,12 +2,7 @@ All features:
 > Idle switch (doesn't read from idle after true)
 > Stopping at the line
 > Adjusting speed depending on position of ball
-> Goal tilting (uses set value for offset)
+> Goal targeting
 
 Note: 
-> Goal tilting is relatively untested'
-> Stopping at the line works unless going too fast
-
-Some important changes:
-> Removed references x and y from getXY as it was somehow crashing the code
-  - It now uses the class x and y vars
+> Bluetooth added (not integrated)

@@ -226,20 +226,34 @@ public:
 
   // moves infront of goal to defend
   void manualDefendGoal() {
-    x = 0, y = 0;
-
-    if (ps.x < FIELD_WIDTH/2 - GOAL_RANGE) {
-      x = 1;
-    }
-    else if (ps.x > FIELD_WIDTH/2 + GOAL_RANGE) {
-      x = -1;
+    getBallXY(x, y);
+    
+    if (strength > GOAL_BASH_STRENGTH) {
+      return;
     }
 
-    if (ps.y < GOAL_DEFENCE_Y - GOAL_RANGE) {
+    if (ps.y < GOAL_DEFENCE_Y - 10) {
       y = -1;
     }
-    else if (ps.y > GOAL_DEFENCE_Y + GOAL_RANGE) {
+    else if (ps.y > GOAL_DEFENCE_Y + 10) {
       y = 1;
+    }
+
+    if (x < 0) { // ball on left
+      if (x < FIELD_WIDTH/2 - GOAL_RANGE) {
+        x = 1;
+      }
+      else {
+        x = -1;
+      }
+    }
+    if (x > 0) {
+      if (x > FIELD_WIDTH/2 + GOAL_RANGE) {
+        x = -1;
+      }
+      else {
+        x = 1;
+      }
     }
   };
 
