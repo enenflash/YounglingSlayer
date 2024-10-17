@@ -17,7 +17,7 @@ public:
   int lineValue;
 
   String teamData;
-  int teamX, teamY, teamDir;
+  int teamX, teamY, teamDir, teamStr;
 
 private:
   /* :::::::: FUNCTIONS :::::::: */
