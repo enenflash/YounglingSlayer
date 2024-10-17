@@ -101,7 +101,7 @@ public:
 
   void updateBluetooth() {
     // send bluetooth data
-    Bluetoothcomm.Send_Data(ps.x, ps.y, direction);
+    Bluetoothcomm.Send_Data(ps.x, ps.y, direction, ballDist);
 
     // recieve bluetooth data
     teamData = Bluetoothcomm.Get_Data();
@@ -109,18 +109,20 @@ public:
     if (teamData != "NONE") {
       int comma_index = teamData.indexOf(",");
       int second_comma_index = teamData.indexOf(",", comma_index + 1);
+      int third_comma_index = teamData.indexOf(",", second_comma_index + 1);
       
-      if (comma_index != -1 && second_comma_index != -1) {
+      if (comma_index != -1 && second_comma_index != -1 && third_comma_index != -1) {
         teamX = teamData.substring(0, comma_index).toInt();
         teamY = teamData.substring(comma_index + 1, second_comma_index).toInt();
-        teamDir = teamData.substring(second_comma_index + 1).toInt();
+        teamDir = teamData.substring(second_comma_index + 1, third_comma_index).toInt();
+        teamStr = teamData.substring(third_comma_index + 1).toInt();
       }
       else {
-        teamX = 0, teamY = 0, teamDir = 0;
+        teamX = 0, teamY = 0, teamDir = 0, teamStr = 0;
       }
     }
     else {
-      teamX = 0, teamY = 0, teamDir = 0;
+      teamX = 0, teamY = 0, teamDir = 0, teamStr = 0;
     }
   };
 
