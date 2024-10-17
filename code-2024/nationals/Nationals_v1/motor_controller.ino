@@ -43,6 +43,12 @@ public:
     headless = headlessMode;
   };
 
+  int getSpeed() {
+    return speed;
+  }
+
+
+
 private:
   //theta and tilt both use unit circle format (and are in radians)
   //getTheta(float x, float y) -> float theta
