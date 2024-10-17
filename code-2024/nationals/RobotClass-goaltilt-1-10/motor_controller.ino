@@ -8,7 +8,7 @@ public:
 		DIR_PIN = dir_pin;
 	};
 	void run(float speedPercent) {
-    int pwmSpeed = (100 - abs(speedPercent)) / 100 * 255;
+    int pwmSpeed = (100 - abs(speedPercent)) / 100.0 * 255;
     //pwm speed and clockwise derived
     if (speedPercent > 0) {
       digitalWrite(DIR_PIN, LOW);
