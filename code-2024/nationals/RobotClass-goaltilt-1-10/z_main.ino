@@ -87,7 +87,7 @@ void printMovement() {
 /* :::::::: MAIN :::::::: */
 void loop() {
   // check idle switch
-  if (idle) { // change to while loop and remove else?
+  if (idle) {
     if (digitalRead(IDLE_PIN) == HIGH) {
       idle = false;
     }
