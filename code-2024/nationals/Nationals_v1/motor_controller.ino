@@ -43,7 +43,7 @@ public:
     headless = headlessMode;
   };
 
-  int getSpeed() {
+  getSpeed() {
     return speed;
   }
 
