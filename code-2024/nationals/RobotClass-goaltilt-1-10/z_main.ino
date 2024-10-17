@@ -1,6 +1,6 @@
 Robot bot;
 bool idle = true;
-bool started = false;
+bool runFowards = true;
 
 /* :::::::: SETUP :::::::: */
 void setup() {
@@ -99,13 +99,13 @@ void loop() {
   bot.update();
 
   // go forward at start
-  // if (!started) {
-  //   unsigned long startTime = millis();  // Get the start time
-  //   while (millis() - startTime < 800) {
-  //     mc.runMotors(0, 1, tilt, 0);
-  //   }
-  //   started = true;
-  // }
+  if (runFowards) {
+    double startTime = millis();  // Get the start time
+    while (millis() - startTime < 800) {
+      bot.mc.runMotors(0, 1, bot.tilt, 0);
+    }
+    runFowards = false;
+  }
 
 
   Serial.print("Strat: ");
