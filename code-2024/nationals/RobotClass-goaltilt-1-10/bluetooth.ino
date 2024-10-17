@@ -4,7 +4,7 @@ SoftwareSerial bluetooth(0, 1); // RX, TX
 class Bluetooth {
   public:
     void Send_Data(int x, int y, int direction, int strength) {
-      String full_data = String(x) + "," + String(y) + "," + String(direction) + "," + String(strength) ";";
+      String full_data = String(x) + "," + String(y) + "," + String(direction) + "," + String(strength) + ";";
       bluetooth.println(full_data);
     }
 
