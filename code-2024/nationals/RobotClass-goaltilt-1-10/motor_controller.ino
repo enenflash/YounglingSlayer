@@ -172,4 +172,8 @@ public:
     BL.stop();
     BR.stop();
   };
+
+  int getSpeed() {
+    return speed;
+  }
 };
