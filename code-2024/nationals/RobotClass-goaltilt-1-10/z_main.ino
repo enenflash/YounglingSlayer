@@ -137,7 +137,7 @@ void loop() {
 
   // run robot
   bot.run();
-  // add delay(100);?
+  delay(100);
 }
 
 /*
