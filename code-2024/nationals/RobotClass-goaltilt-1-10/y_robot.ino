@@ -247,4 +247,32 @@ public:
     // run motors using motor controller
     mc.runMotors(x, y, tilt, offset);
   };
+
+  bool defenceCheck() {
+    if (teamDir == 0) {
+      return false;
+    }
+
+    if (teamDir > 3 && teamDir < 9) {
+      return false;
+    }
+
+    if (teamStr < 35) {
+      return false;
+    }
+
+    if (direction == 0) {
+      return false;
+    }
+
+    if (direction > 3 && direction < 9) {
+      return false;
+    }
+
+    if (strength > teamStr - TEAM_STRENGTH_DIFFERANCE) {
+      return false;
+    }
+
+    return true;
+  };
 };
