@@ -122,6 +122,12 @@ void loop() {
   //   Serial.println("Bash");
   //   bot.bashBall();
   // }
+
+  // else if (bot.defenceCheck()) {
+  //   Serial.println("Defend Goal");
+  //   bot.manualDefendGoal();
+  // }
+
   else {
     Serial.println("Get behind ball");
     bot.getBehindBall();
