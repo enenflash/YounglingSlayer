@@ -1,5 +1,6 @@
 Robot bot;
 bool idle = true;
+bool started = false;
 
 /* :::::::: SETUP :::::::: */
 void setup() {
@@ -86,7 +87,7 @@ void printMovement() {
 /* :::::::: MAIN :::::::: */
 void loop() {
   // check idle switch
-  if (idle) {
+  if (idle) { // change to while loop and remove else?
     if (digitalRead(IDLE_PIN) == HIGH) {
       idle = false;
     }
@@ -96,6 +97,16 @@ void loop() {
   }
 
   bot.update();
+
+  // go forward at start
+  // if (!started) {
+  //   unsigned long startTime = millis();  // Get the start time
+  //   while (millis() - startTime < 800) {
+  //     mc.runMotors(0, 1, tilt);
+  //   }
+  //   started = true;
+  // }
+
 
   Serial.print("Strat: ");
 
