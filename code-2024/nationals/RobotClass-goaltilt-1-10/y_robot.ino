@@ -49,7 +49,7 @@ private:
 
   void getAroundBall(float &x, float &y) {
     if (direction == 6 && strength > 36) {
-      if (ps.x < FIELD_WIDTH/2) {
+      if (ps.x < FIELD_WIDTH/2) { // || abs(ps.x - (FIELD_WIDTH - 2 * ULTRASONIC_TO_ROBOT - ps.x)) < 15
         x = 1, y = 0;
       }
       else {

@@ -1,4 +1,4 @@
-SoftwareSerial bluetooth(0, 1);
+SoftwareSerial bluetooth(0, 1); // RX, TX
 
 /* :::::::: BLUETOOTH :::::::: */
 class Bluetooth {
