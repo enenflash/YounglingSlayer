@@ -83,11 +83,25 @@ public:
     y = sin(movementAngle);
   };
 
+  void adjustSpeed() {
+    if (lineValue != 0) {
+      mc.setSpeed(LINE_SPEED);
+      return;
+    }
+
+    if (irAngles[direction] > PI && irAngles[direction] < 2*PI) {
+      mc.setSpeed(BALL_BEHIND_SPEED);
+    }
+    else {
+      mc.setSpeed(100);
+    }
+  };
+
   void getOffset() {
     if (ps.x < 50) {
       offset = -18;
     }
-    else if (FIELD_WIDTH - ps.x - 2 * ULTRASONIC_TO_ROBOT < 50) {
+    else if (FIELD_WIDTH - ps.x < 50) {
       offset = 18;
     }
     else if (ps.x < FIELD_WIDTH/2 - 20) {
@@ -117,13 +131,6 @@ public:
 
   // stays within the lines
   void stopAtLine() {
-    if (lineValue != 0) {
-      mc.setSpeed(LINE_SPEED);
-    }
-    else {
-      mc.setSpeed(100);
-    }
-
     if (lineValue == 1 && y > 0) {
       x = 0, y = -1;
     }

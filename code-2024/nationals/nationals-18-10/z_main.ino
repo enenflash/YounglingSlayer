@@ -88,7 +88,6 @@ void loop() {
   }
 
   bot.update();
-
   bot.getOffset();
 
   if (bot.direction == 12) {
@@ -98,11 +97,15 @@ void loop() {
     bot.getBehindBall();
   }
 
-  printIR();
-  printUltrasonic();
-
   bot.stopAtLine();
 
-  // run robot
+  Serial.print("Direction: ");
+  Serial.print(bot.direction);
+  Serial.print(" Strength: ");
+  Serial.println(bot.strength);
+  
+  printUltrasonic();
+
+  bot.adjustSpeed();
   bot.run();
 }

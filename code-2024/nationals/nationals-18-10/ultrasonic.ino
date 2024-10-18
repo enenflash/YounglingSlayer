@@ -7,7 +7,6 @@ public:
     trigger_pin = TRIGGER_PIN;
     echo_pin = ECHO_PIN;
   }
-  
 
   int getDistance() {
     long duration, ult_distance;
@@ -66,7 +65,7 @@ private:
   }
 
   float getTrueDist(float tilt, int rawValue) {
-    return cos(tilt)*rawValue + ULTRASONIC_TO_ROBOT;
+    return cos(tilt)*rawValue;
   }
 
   float getAvgDist(int history[ULT_HIST_LENGTH]) {
@@ -74,7 +73,7 @@ private:
     for (int i = 0; i < ULT_HIST_LENGTH; i++) {
       sum += history[i];
     }
-    return (sum + 0.0) / ULT_HIST_LENGTH;
+    return sum / (ULT_HIST_LENGTH + 0.0);
   }
 
   // deciding with ultrasonic to use by checking if a sensor is blocked
@@ -84,8 +83,12 @@ private:
 
     leftBlocked = (trueLeft > avgLeft + ULT_RANGE) || (trueLeft < avgLeft - ULT_RANGE);
     rightBlocked = (trueRight > avgRight + ULT_RANGE) || (trueRight < avgRight - ULT_RANGE);
-    
-    reliable = true;
+
+    Serial.print("Left Blocked: ");
+    Serial.print(leftBlocked);
+    Serial.print(" Right Blocked: ");
+    Serial.println(rightBlocked);
+
     if (leftBlocked && rightBlocked) {
       reliable = false;
       return 808;
@@ -110,12 +113,14 @@ public:
   bool reliable = true;
 
   void update(float tilt) {
-    // get raw distances from ultrasonics
-    rawLeft = ultLeft.getDistance();
-    rawRight = ultRight.getDistance();
-    rawBack = ultBack.getDistance();
+    reliable = true;
 
-    trueBack = rawBack*cos(tilt) + ULTRASONIC_TO_ROBOT;
+    // get raw distances from ultrasonics
+    rawLeft = ultLeft.getDistance() + ULTRASONIC_TO_ROBOT;
+    rawRight = ultRight.getDistance() + ULTRASONIC_TO_ROBOT;
+    rawBack = ultBack.getDistance() + ULTRASONIC_TO_ROBOT;
+
+    trueBack = rawBack*cos(tilt);
 
     y = FIELD_LENGTH - trueBack;
 
@@ -124,27 +129,20 @@ public:
 
     checkHistoryEmpty();
 
+    sensorBlocked = trueLeft + trueRight < (FIELD_WIDTH - 20);
+
     x = min(trueLeft, FIELD_WIDTH-trueRight);
-    
-    // sensorBlocked = (rawLeft + rawRight + 2*ULTRASONIC_TO_ROBOT) < (FIELD_WIDTH - 30);
 
-    // if (!sensorBlocked) {
-    //   x = min(trueLeft, FIELD_WIDTH-trueRight);
-    // }
-    // else {
-    //   x = getLeftDistBlocked();
-    // }
+    if (sensorBlocked) {
+      x = getLeftDistBlocked();
+    }
 
-    // if (x == 808) {
-    //   x = trueLeft;
-    // }
+    // account for goal
+    if ((x > 46) && (x < 136)) {
+      y += 17.6;
+    }
 
-    // // account for goal
-    // if (x > 46 && x < 136) {
-    //   y += 17.6;
-    // }
-
-    updateHistory();
+    // updateHistory();
   };
 
   float getUnfilteredLeft() {
