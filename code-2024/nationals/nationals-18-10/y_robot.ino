@@ -52,6 +52,11 @@ public:
   };
 
   void getBehindBall() {
+    if (direction == 0) {
+      x = 0, y = 0;
+      return;
+    }
+
     if (strength < 36) {
       getBallXY(x, y);
       return;
@@ -98,17 +103,22 @@ public:
   };
 
   void getOffset() {
+    if (lineValue != 0) {
+      offset = 0;
+      return;
+    }
+
     if (ps.x < 50) {
-      offset = 18;
+      offset = -16;
     }
     else if (FIELD_WIDTH - ps.x < 50) {
-      offset = -18;
+      offset = 16;
     }
     else if (ps.x < FIELD_WIDTH/2 - 20) {
-      offset = 10;
+      offset = -10;
     }
     else if (ps.x > FIELD_WIDTH/2 + 20) {
-      offset = -10;
+      offset = 10;
     }
     else {
       offset = 0;

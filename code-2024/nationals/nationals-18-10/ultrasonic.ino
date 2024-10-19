@@ -83,7 +83,7 @@ private:
 
     leftBlocked = (trueLeft > avgLeft + ULT_RANGE) || (trueLeft < avgLeft - ULT_RANGE);
     rightBlocked = (trueRight > avgRight + ULT_RANGE) || (trueRight < avgRight - ULT_RANGE);
-
+    
     Serial.print("Left Blocked: ");
     Serial.print(leftBlocked);
     Serial.print(" Right Blocked: ");

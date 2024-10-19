@@ -62,10 +62,13 @@ private:
       t = t*-1;
     }
 
-    float o = 7.45*pow(abs(offset), (1.0/2.0));
+    float o = 7.45*pow(abs(offset), (1.0/3.0));
     if (offset < 0) {
       o = o*-1;
     }
+
+    Serial.print("Offset: ");
+    Serial.println(o);
 
     float motorRatio[4] = { -x - y, -x + y, x - y, x + y };
     // round motor Ratio to prevent errors
@@ -88,7 +91,7 @@ private:
 
     //avoid division by 0
     if (largest == 0) {
-      motorSpeeds = { t, t, t, t };
+      motorSpeeds = { t + o, t + o, t + o, t + o };
       return motorSpeeds;
     }
 

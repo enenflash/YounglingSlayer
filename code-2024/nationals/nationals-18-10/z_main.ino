@@ -95,8 +95,8 @@ void loop() {
   bot.update();
 
   if (bot.direction == 12) {
-    bot.getOffset();
     bot.targetGoal();
+    bot.getOffset();
   }
   else {
     bot.getBehindBall();

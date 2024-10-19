@@ -59,7 +59,7 @@ const int GOAL_TILT_BOUND = 23;
 // Speeds
 const int BALL_SIDE_SPEED = 80;
 const int BALL_BEHIND_SPEED = 80; // note robot doesn't slow down at 3 and 9
-const int LINE_SPEED = 50;
+const int LINE_SPEED = 20;
 
 // IR direction to radians
 std::map<int, float> irAngles = {
