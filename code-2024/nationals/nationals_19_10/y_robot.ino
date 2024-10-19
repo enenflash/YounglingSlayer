@@ -68,13 +68,7 @@ public:
     }
 
     if (direction == 6) {
-      if (ps.x < FIELD_WIDTH/2 + 10) {
-        x = 1, y = 0;
-      }
-      else {
-        x = -1, y=0;
-      }
-      
+      x = 1, y = 0;
       return;
     }
 
