@@ -58,7 +58,7 @@ private:
         rightHistory[i] = rightHistory[i+1];
       }
       else {
-        leftHistory[i] = trueLeft;
+        leftHistory[i] = trueLeft; // UPDATE update only if not blocked (two seperate if)
         rightHistory[i] = trueRight;
       }
     }
@@ -81,7 +81,7 @@ private:
     avgLeft = getAvgDist(leftHistory);
     avgRight = getAvgDist(rightHistory);
 
-    leftBlocked = (trueLeft > avgLeft + ULT_RANGE) || (trueLeft < avgLeft - ULT_RANGE);
+    leftBlocked = (trueLeft > avgLeft + ULT_RANGE) || (trueLeft < avgLeft - ULT_RANGE); // UPDATE can't be blocked when > average
     rightBlocked = (trueRight > avgRight + ULT_RANGE) || (trueRight < avgRight - ULT_RANGE);
     
     Serial.print("Left Blocked: ");
@@ -142,7 +142,7 @@ public:
       y += 17.6;
     }
 
-    // updateHistory();
+    updateHistory();
   };
 
   float getUnfilteredLeft() {

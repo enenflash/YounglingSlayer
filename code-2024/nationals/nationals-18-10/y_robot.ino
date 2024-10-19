@@ -103,7 +103,7 @@ public:
   };
 
   void getOffset() {
-    if (lineValue != 0) {
+    if (lineValue != 0) { // UPDATE if ultrasonics not reliable do not tilt (risky needs testing)
       offset = 0;
       return;
     }

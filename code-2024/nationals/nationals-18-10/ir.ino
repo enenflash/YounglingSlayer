@@ -44,7 +44,6 @@ private:
         direction = i;
       }
     }
-    
     return direction;
   };
 
