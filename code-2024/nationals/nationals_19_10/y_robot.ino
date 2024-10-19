@@ -150,13 +150,20 @@ public:
   };
 
   // stays within the lines
+  void logY() {
+    if (lineValue == 0) {
+      previousY = y;
+    }
+  };
+
+  // stays within the lines
   void stopAtLine() {
-    if (lineValue == 1) { // && y > 0
-      x = 0, y = -1;
+
+    if (lineValue == 1 || lineValue == 4) {
+      if(previousY < 0) x = 0, y = 1;
+      else x = 0, y = -1;
     }
-    else if (lineValue == 4) { // && y < 0
-      x = 0, y = 1;
-    }
+
     else if (lineValue == 2) { // && (x < 0)
       if (ps.x < 40) {
         x = 1, y = 0;
