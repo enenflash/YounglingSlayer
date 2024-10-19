@@ -75,6 +75,11 @@ void printMovement() {
   Serial.println(bot.mc.getSpeed());
 };
 
+void printLine() {
+  Serial.print("Line: ");
+  Serial.println(bot.lineValue);
+};
+
 /* :::::::: MAIN :::::::: */
 void loop() {
   // check idle switch
@@ -88,9 +93,9 @@ void loop() {
   }
 
   bot.update();
-  bot.getOffset();
 
   if (bot.direction == 12) {
+    bot.getOffset();
     bot.targetGoal();
   }
   else {
@@ -105,6 +110,7 @@ void loop() {
   Serial.println(bot.strength);
   
   printUltrasonic();
+  printLine();
 
   bot.adjustSpeed();
   bot.run();

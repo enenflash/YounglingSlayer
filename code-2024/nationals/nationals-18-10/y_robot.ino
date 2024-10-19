@@ -99,16 +99,16 @@ public:
 
   void getOffset() {
     if (ps.x < 50) {
-      offset = -18;
-    }
-    else if (FIELD_WIDTH - ps.x < 50) {
       offset = 18;
     }
+    else if (FIELD_WIDTH - ps.x < 50) {
+      offset = -18;
+    }
     else if (ps.x < FIELD_WIDTH/2 - 20) {
-      offset = -10;
+      offset = 10;
     }
     else if (ps.x > FIELD_WIDTH/2 + 20) {
-      offset = 10;
+      offset = -10;
     }
     else {
       offset = 0;
