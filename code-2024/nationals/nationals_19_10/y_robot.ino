@@ -57,7 +57,7 @@ public:
       return;
     }
 
-    if (strength < 36) {
+    if (strength < 34) {
       getBallXY(x, y);
       return;
     }
@@ -103,26 +103,36 @@ public:
   };
 
   void getOffset() {
-    if (lineValue != 0) { // UPDATE if ultrasonics not reliable do not tilt (risky needs testing)
+    if (lineValue != 0 || !ps.reliable) {
       offset = 0;
       return;
     }
 
-    if (ps.x < 50) {
-      offset = -16;
-    }
-    else if (FIELD_WIDTH - ps.x < 50) {
-      offset = 16;
-    }
-    else if (ps.x < FIELD_WIDTH/2 - 20) {
-      offset = -10;
+    if (ps.x < FIELD_WIDTH/2 - 20) {
+      offset = -25;
     }
     else if (ps.x > FIELD_WIDTH/2 + 20) {
-      offset = 10;
+      offset = 25;
     }
     else {
       offset = 0;
     }
+
+    // if (ps.x < 50) {
+    //   offset = -30;
+    // }
+    // else if (FIELD_WIDTH - ps.x < 50) {
+    //   offset = 0; // 30
+    // }
+    // else if (ps.x < (FIELD_WIDTH/2 - 20)) {
+    //   offset = -20;
+    // }
+    // else if (ps.x > (FIELD_WIDTH/2 + 20)) {
+    //   offset = 0; // 20
+    // }
+    // else {
+    //   offset = 0;
+    // }
   };
 
   // gets the goal x,y coordinants using ultrasonics

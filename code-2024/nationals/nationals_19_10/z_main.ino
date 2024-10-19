@@ -84,7 +84,8 @@ void loop() {
   }
 
   bot.update();
-
+  // bot.direction = 12;
+  // bot.x = 0, bot.y = 0;
   if (bot.direction == 12) {
     bot.targetGoal();
     bot.getOffset();
@@ -99,6 +100,8 @@ void loop() {
   Serial.print(bot.direction);
   Serial.print(" Strength: ");
   Serial.println(bot.strength);
+
+  bot.ps.serialPrint();
   
   printLine();
 

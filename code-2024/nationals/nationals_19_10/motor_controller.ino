@@ -57,18 +57,18 @@ private:
       tilt = 0;
     }
     
-    float t = 7.45*pow(abs(tilt), (1.0/2.0));
-    if (tilt < 0) {
-      t = t*-1;
-    }
+    // float t = 7.45*pow(abs(tilt), (1.0/2.0));
+    // if (tilt < 0) {
+    //   t = t*-1;
+    // }
 
-    float o = 7.45*pow(abs(offset), (1.0/3.0));
-    if (offset < 0) {
-      o = o*-1;
-    }
+    // float o = 7.45*pow(abs(offset), (1.0/3.0));
+    // if (offset < 0) {
+    //   o = o*-1;
+    // }
 
     Serial.print("Offset: ");
-    Serial.println(o);
+    Serial.println(offset);
 
     float motorRatio[4] = { -x - y, -x + y, x - y, x + y };
     // round motor Ratio to prevent errors
@@ -91,13 +91,13 @@ private:
 
     //avoid division by 0
     if (largest == 0) {
-      motorSpeeds = { t + o, t + o, t + o, t + o };
+      motorSpeeds = { tilt + offset, tilt + offset, tilt + offset, tilt + offset };
       return motorSpeeds;
     }
 
     for (int i = 0; i < 4; i++) {
       // +0.0 converts motorRatio to double
-      motorSpeeds[i] = ((motorRatio[i] + 0.0) / largest * speed) + t + o;
+      motorSpeeds[i] = ((motorRatio[i] + 0.0) / largest * speed) + tilt + offset;
     }
 
     //TL, TR, BL, BR
