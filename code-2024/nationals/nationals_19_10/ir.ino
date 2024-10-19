@@ -1,10 +1,13 @@
+// ir sensor class
 class IRSensor {
 private:
+  // variable initilisations
   int strength;
   int direction;
   int dirHistory[DIR_HIST_LENGTH] = {12, 12, 12, 12, 12};
   int strHistory[STR_HIST_LENGTH] = {40, 40, 40, 40, 40};
 
+  // histories for greater accuracy
   void updateStrHistory() {
     for (int i = 0; i < STR_HIST_LENGTH; i++) {
       if (i != STR_HIST_LENGTH-1) {
@@ -56,6 +59,7 @@ public:
       strength = Wire.read();
     }
 
+    // updating histories
     updateDirHistory();
     updateStrHistory();
   };
@@ -73,6 +77,7 @@ public:
     return mostCommonDirection();
   };
 
+  // fitering strength by finding average
   int getFilteredStrength() {
     int totalStrength = 0;
     for (int i = 0; i < STR_HIST_LENGTH; i++) {

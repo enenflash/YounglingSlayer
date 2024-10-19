@@ -57,7 +57,7 @@ const int GOAL_RANGE = 20;
 const int GOAL_TILT_BOUND = 23;
 
 // Speeds
-const int BALL_SIDE_SPEED = 80;
+const int BALL_BEHIND_CLOSE_SPEED = 70;
 const int BALL_BEHIND_SPEED = 80; // note robot doesn't slow down at 3 and 9
 const int LINE_SPEED = 20;
 

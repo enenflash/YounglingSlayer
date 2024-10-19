@@ -1,6 +1,7 @@
+// main robot class
 class Robot {
 public:
-  // defining obkects
+  // defining objects
   MotorController mc = MotorController(false);
   Adafruit_BNO055 bno = Adafruit_BNO055(55);
   IRSensor ir;
@@ -15,6 +16,7 @@ public:
   float x = 0, y = 0;
 
   int lineValue;
+  float previousY;
 
 private:
   /* :::::::: FUNCTIONS :::::::: */
@@ -51,6 +53,7 @@ public:
     ps.update(tilt*PI/180);
   };
 
+  // function for robot to position itself behind the ball
   void getBehindBall() {
     if (direction == 0) {
       x = 0, y = 0;
@@ -88,6 +91,7 @@ public:
     y = sin(movementAngle);
   };
 
+  // adjusting speed according to situation
   void adjustSpeed() {
     if (lineValue != 0) {
       mc.setSpeed(LINE_SPEED);
@@ -95,13 +99,19 @@ public:
     }
 
     if (irAngles[direction] > PI && irAngles[direction] < 2*PI) {
-      mc.setSpeed(BALL_BEHIND_SPEED);
+      if (strength > 30) {
+        mc.setSpeed(BALL_BEHIND_CLOSE_SPEED);
+      }
+      else {
+        mc.setSpeed(BALL_BEHIND_SPEED);
+      }
     }
     else {
       mc.setSpeed(100);
     }
   };
 
+  // tilt towards goal
   void getOffset() {
     if (lineValue != 0 || !ps.reliable) {
       offset = 0;
@@ -149,14 +159,14 @@ public:
     // getGoalXY(x, y);
   };
 
-  // stays within the lines
+  // keep a record of previous Y heading
   void logY() {
     if (lineValue == 0) {
       previousY = y;
     }
   };
 
-  // stays within the lines
+  // stays within the lines (lineValue 1 is front, 2 is left, 3 is right, 4 is back)
   void stopAtLine() {
 
     if (lineValue == 1 || lineValue == 4) {

@@ -94,6 +94,10 @@ void loop() {
     bot.getBehindBall();
   }
 
+  if (bot.direction != 12 && bot.direction != 11 && bot.direction != 1) {
+    bot.offset = 0;
+  }
+
   bot.stopAtLine();
 
   Serial.print("Direction: ");
@@ -106,6 +110,6 @@ void loop() {
   printLine();
 
   bot.adjustSpeed();
-
+  bot.logY();
   bot.run();
 }

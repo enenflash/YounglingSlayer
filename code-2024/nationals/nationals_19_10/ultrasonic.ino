@@ -1,3 +1,4 @@
+// ultrasonic class
 class Ultrasonic {
 public:
   int trigger_pin;
@@ -8,6 +9,7 @@ public:
     echo_pin = ECHO_PIN;
   }
 
+  // getting distance from ultrasonic
   int getDistance() {
     long duration, ult_distance;
 
@@ -28,6 +30,7 @@ public:
   }
 };
 
+// class to create grid system of field
 class PositionSystem {
 private:
   Ultrasonic ultLeft = Ultrasonic(USL_TRIG, USL_ECHO);
@@ -95,6 +98,7 @@ public:
     }
   };
 
+  // update ultrasonics and position system
   void update(float tilt) {
     getRawDistances();
     getTrueDistances(tilt);
@@ -118,6 +122,7 @@ public:
     }
   };
 
+  // debugging
   void serialPrint() {
     Serial.print("TrueLeft: ");
     Serial.print(trueDistances[0]);

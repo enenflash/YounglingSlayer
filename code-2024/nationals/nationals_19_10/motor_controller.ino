@@ -7,6 +7,7 @@ public:
 		PWM_PIN = pwm_pin;
 		DIR_PIN = dir_pin;
 	};
+  // run the motor
 	void run(float speedPercent) {
     int pwmSpeed = (100 - abs(speedPercent)) / 100 * 255;
     //pwm speed and clockwise derived
@@ -19,6 +20,7 @@ public:
 
     analogWrite(PWM_PIN, pwmSpeed);
 	};
+  // stop the motor
 	void stop() {
     analogWrite(PWM_PIN, 255);
 	};
@@ -27,11 +29,13 @@ public:
 //Motor controller interacts with 4 Motors
 //MotorController(bool headlessMode)
 class MotorController {
-private: 
+private:
+  // variable initilisation
   bool headless;
   float speed = 100.0;
   array<float, 4> motorSpeeds;
 
+  // motor objects
   Motor TL = Motor(TL_PWM, TL_DIR);
   Motor TR = Motor(TR_PWM, TR_DIR);
   Motor BL = Motor(BL_PWM, BL_DIR);
@@ -157,6 +161,7 @@ public:
       }
     }
 
+    // run motors
     TL.run(motorSpeeds[0]);
     TR.run(motorSpeeds[1]);
     BL.run(motorSpeeds[2]);
